@@ -2,20 +2,19 @@
 
 This inventory audits all 3D models and media collected in the `3D Models ` directory, detailing their current import status, format validity, and exact pipeline required for GDevelop 5.
 
-## Current Asset Registry
+## Phase 2 Upgraded Asset Registry
 
-| Asset Name | Current File Format | Intended Use | Scale & Orientation | Animations Included | Rig Compatibility | Texture Requirements | Current Import Status | GDevelop 5 Compatibility | Action Required |
-|---|---|---|---|---|---|---|---|---|---|
-| **College Raimon Environment** | `.glb` (inside `collegeraimon.zip`, 449.8 MB) | Colosseum / School Arena Environment | Standard Y-Up, ~1:1 scale | Static environment (None) | Static Mesh (No rig) | Embedded PBR materials | Archived in zip | **Native (.glb)** — File is too large (450MB) for web performance | Unzip, decimate/LOD mesh in Blender to reduce from 450MB to <35MB |
-| **Birds Flock Pack** | `.gltf` + `.bin` (inside `birds_gltf.zip`, 201 KB) | Ambient arena wildlife / skybox effects | Standard Y-Up, scale 0.1 | Flight cycles included | Standard skeletal rig | Embedded textures | Ready for test | **Native (.gltf)** — 100% compatible | Can be imported directly into GDevelop 3D scene |
-| **Armored Stone Golem** | `.fbx` (1.8MB), `.obj`, Maya `.mb`, Unity `.unitypackage` (801MB) | Earth Element Boss / Heavy Automaton | Standard Y-Up, Height ~3.5m | Yes (in `animations.zip`) | Humanoid/Monster biped rig | Requires diffuse, normal, roughness maps | Unpacked FBX & OBJ | **Incompatible as-is** (FBX/OBJ/Unitypackage not loaded directly) | Convert `SKM_StoneGolem.fbx` + animations to single `.glb` file |
-| **Rogue Character** | `.fbx` (`rogue_all.fbx`, 4.2 MB) | Shadow/Void Assassin Character | Standard Y-Up, Height ~1.8m | Multiple animations combined in FBX | Standard Humanoid rig | Embedded textures in FBX | Standalone FBX | **Incompatible as-is** | Open in Blender / FBX2glTF converter to export as `.glb` with NLA tracks |
-| **Animals Free Pack** | `.obj`, `.blend` (3.1MB), `.c4d`, `.unitypackage` | Nature / Summoned beasts | Standard Y-Up | Static pose in OBJ | Requires rigging | Texture atlas in `textures.zip` | Archive | **Incompatible as-is** | Export desired animal from `.blend` as `.glb` with UV textures |
-| **Monster Pack** | Maya `.ma` / `.mb` (4.4MB), `.unitypackage` | Elemental Minions | Maya Y-Up | Maya animation clips | Custom monster rig | Texture zip is 0 bytes | Incomplete | **Incompatible** | Requires Maya/Blender to export mesh; textures currently missing |
-| **Sci-Fi Trooper** | `.unitypackage` (`scifitroopermanv3.unitypackage`, 71 MB) | High-Tech Suit Avatar | Unknown (Unity package) | Unknown | Unity Mecanim humanoid | Embedded in Unity assets | Packaged | **Incompatible** | Extract mesh & textures in Unity Editor, export as `.glb` |
-| **FANTASTIC Village** | `.blend` (59MB), `.crdownload` (321MB) | Fantasy / Ancient Map assets | Blender Z-Up | Static props | Static | Textures in incomplete download | Incomplete / Interrupted | **Incompatible as-is** | Re-download complete archive; export static props as `.glb` |
-| **Medieval Assassin Girl** | `.crdownload` (101MB), empty zip | Female Assassin Avatar | Unknown | Unknown | Unknown | Unknown | **Corrupted / Interrupted Download** | **Unusable** | Re-download from original asset source |
-| **Monkey Pack** | 5x `.crdownload` files, 0-byte zips | Custom Avatar / Companion | Unknown | Unknown | Unknown | Unknown | **Corrupted / Interrupted Download** | **Unusable** | Re-download from original asset source |
+| Asset Name | Source Archive & Formats | Extracted Location | Intended Use | Scale & Metrics | Textures & Materials | Integration Status in Engine |
+|---|---|---|---|---|---|---|
+| **School Campus (College Raimon)** | `collegeraimon.zip` (429 MB `.glb`) | `game/assets/maps/school/CollegeRaimon.glb` & `public/...` | Academic campus arena | 12,471 nodes, 790 meshes, 479 materials. 1:1 scale | Japanese high school academic building, sports fields, fences, courtyards | **Integrated (Phase 2)** — Playable via Map Selector `[M]`. Hybrid architecture with immediate playable courtyard + GLTF streaming |
+| **Fantastic Medieval Village** | `Unconfirmed 516336.crdownload` (321 MB valid ZIP) | `game/assets/maps/village/` & `public/...` | Medieval RPG village | 85 building FBXs, 339 prop FBXs, terrain textures | 5x PBR textures converted to 1024x1024 PNG (Cobblestone, Grass, Stone, Farmfield, Skybox) | **Integrated (Phase 2)** — Playable via Map Selector `[M]`. Village houses, timber beams, cobblestone streets, market stalls, perimeter fences |
+| **Colosseum Arena** | Procedural 3D Roman Coliseum | Core Engine | Ancient gladiatorial arena | 60m radius, 12m stone columns, perimeter battlements | Roman sandstone, bronze braziers, sand ground | **Integrated** — Fully playable, optimized 60fps WebGL 2.0 |
+| **Armored Stone Golem** | `SKM_StoneGolem.fbx` + `armored_stone_golem_unity.unitypackage` (801MB) | `game/assets/models/stone_golem/` & `public/...` | Heavy Earth Automaton / Tank | 0.015 Three.js scale (~3.2m height), Camera offset 2.5m | All 27 PBR textures extracted and converted from 4K TGA to web PNGs (Albedo, Normal, Metallic, Occlusion, Emission) | **Integrated (Phase 2)** — Playable in Loadout `[TAB]`. Heavy footsteps, stone armor, right-fist cast socket `(0.8, 1.8, 0.6)` |
+| **Shadow Rogue** | `rogue_all.fbx` (4.2 MB) | `game/assets/models/` & `public/...` | Agile Shadow/Void Assassin | 0.018 Three.js scale (~1.85m height), Camera offset 1.8m | Skeletal humanoid rig with dual daggers | **Integrated (Phase 2)** — Playable in Loadout `[TAB]`. High agility, dagger cast socket `(0.4, 1.4, 0.5)` |
+| **Elemental Mech** | Procedural High-Tech Combat Frame | Core Engine | Arcane Tech Vanguard | 2.0m height, floating shoulder cannons | Cybernetic plating with elemental plasma emissive core | **Integrated (Phase 2)** — Playable in Loadout `[TAB]`. Chest core casting socket |
+| **Map Preview Thumbnails** | JPG renders (16:9) | `public/assets/maps/previews/` | Map Selection UI `[M]` | 400x225px web optimized | Colosseum, School Campus, Fantastic Village | **Active in UI** — Instant card previews with environment badges |
+| **Web 3D Libraries** | Offline Three.js r128, FBXLoader, GLTFLoader, fflate | `public/assets/libs/` & `game/assets/libs/` | Standalone offline 3D runtime | Standalone JS bundles | Zero external CDN dependency | **Active** — Enables 100% offline local gameplay |
+
 
 ---
 

@@ -38,4 +38,18 @@ dist-ssr
 *.unitypackage
 *.mb
 *.c4d
-3D Models /*/*.crdownload
+*.glb
+*.tga
+*.fbx
+3D Models*
+game/assets/maps/village/2d/
+game/assets/maps/village/3d/
+public/assets/maps/village/3d/
+game/assets/maps/school/
+public/assets/maps/school/
+game/assets/models/
+public/assets/models/
+
+
+
+

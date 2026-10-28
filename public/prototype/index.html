@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>ELEMENTAL ARENA — Advanced 3D Combat</title>
+  <title>ELEMENTAL ARENA — Phase 2: Multi-Map 3D Combat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
@@ -14,25 +14,25 @@
     canvas { display: block; width: 100%; height: 100%; }
 
     /* HUD OVERLAY */
-    #hud { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; padding: 20px 24px; }
+    #hud { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; padding: 18px 22px; }
     .interactive { pointer-events: auto; }
 
     /* TOP BAR */
     .hud-top { display: flex; justify-content: space-between; align-items: flex-start; }
     .hud-player-card {
-      background: rgba(12, 16, 26, 0.88);
+      background: rgba(12, 16, 26, 0.9);
       border: 1px solid rgba(56, 189, 248, 0.35);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.15);
       backdrop-filter: blur(14px);
       border-radius: 12px;
-      padding: 14px 18px;
+      padding: 12px 18px;
       min-width: 320px;
     }
     .player-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .player-name {
       font-family: 'Orbitron', sans-serif;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 1.5px;
       color: #38bdf8;
       text-transform: uppercase;
@@ -41,30 +41,28 @@
       gap: 8px;
     }
     .char-badge {
-      font-size: 10px;
-      padding: 2px 7px;
+      font-size: 9px;
+      padding: 2px 6px;
       border-radius: 4px;
       background: rgba(147, 51, 234, 0.25);
       border: 1px solid rgba(168, 85, 247, 0.5);
       color: #c084fc;
       font-weight: 700;
-      letter-spacing: 0.5px;
     }
-    .element-badge {
+    .map-badge {
+      font-size: 10px;
       padding: 2px 8px;
       border-radius: 4px;
-      font-size: 11px;
+      background: rgba(56, 189, 248, 0.2);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
       font-weight: 700;
-      text-transform: uppercase;
       letter-spacing: 1px;
-      background: rgba(249, 115, 22, 0.2);
-      color: #fb923c;
-      border: 1px solid rgba(249, 115, 22, 0.5);
     }
-    .bar-group { display: flex; flex-direction: column; gap: 5px; }
+    .bar-group { display: flex; flex-direction: column; gap: 4px; }
     .bar-row { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; }
     .bar-label { width: 50px; color: #94a3b8; font-family: 'Orbitron', sans-serif; font-size: 9px; letter-spacing: 0.5px; }
-    .bar-track { flex: 1; height: 9px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; overflow: hidden; position: relative; }
+    .bar-track { flex: 1; height: 8px; background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 4px; overflow: hidden; position: relative; }
     .bar-fill { height: 100%; width: 100%; transition: width 0.12s ease-out; border-radius: 3px; }
     .bar-fill.hp { background: linear-gradient(90deg, #ef4444, #f97316); box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
     .bar-fill.shield { background: linear-gradient(90deg, #0284c7, #38bdf8); box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
@@ -74,19 +72,19 @@
 
     /* TARGET HUD */
     .target-card {
-      background: rgba(12, 16, 26, 0.88);
+      background: rgba(12, 16, 26, 0.9);
       border: 1px solid rgba(239, 68, 68, 0.4);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(239, 68, 68, 0.2);
       backdrop-filter: blur(14px);
       border-radius: 12px;
       padding: 10px 18px;
-      min-width: 280px;
+      min-width: 270px;
       text-align: center;
     }
-    .target-title { font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; color: #f87171; margin-bottom: 5px; letter-spacing: 1.5px; }
+    .target-title { font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; color: #f87171; margin-bottom: 4px; letter-spacing: 1.5px; }
 
-    /* TOP RIGHT BUTTONS */
-    .top-actions { display: flex; gap: 10px; }
+    /* TOP RIGHT ACTIONS */
+    .top-actions { display: flex; gap: 8px; }
     .hud-btn {
       pointer-events: auto;
       background: rgba(14, 18, 30, 0.9);
@@ -95,7 +93,7 @@
       font-family: 'Orbitron', sans-serif;
       font-size: 11px;
       font-weight: 700;
-      padding: 9px 16px;
+      padding: 8px 14px;
       border-radius: 8px;
       cursor: pointer;
       backdrop-filter: blur(12px);
@@ -110,17 +108,9 @@
 
     /* RETICLE / CROSSHAIR SYSTEM (COD MOBILE STYLE) */
     #reticle-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 12;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none; z-index: 12; display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px;
     }
     .reticle-center-dot { width: 4px; height: 4px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 6px #38bdf8; transition: all 0.1s ease; }
     .reticle-line { position: absolute; background: rgba(56, 189, 248, 0.75); box-shadow: 0 0 6px rgba(56, 189, 248, 0.6); transition: transform 0.12s ease-out; }
@@ -149,17 +139,11 @@
     /* FLOATING DAMAGE NUMBERS CONTAINER */
     #damage-numbers-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 14; }
     .floating-damage {
-      position: absolute;
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 900;
-      font-size: 20px;
-      color: #fb923c;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.9), 0 0 15px rgba(249, 115, 22, 0.8);
-      pointer-events: none;
-      animation: floatDamage 0.85s ease-out forwards;
-      transform: translate(-50%, -50%);
+      position: absolute; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 20px;
+      color: #fb923c; text-shadow: 0 0 10px rgba(0, 0, 0, 0.9), 0 0 15px rgba(249, 115, 22, 0.8);
+      pointer-events: none; animation: floatDamage 0.85s ease-out forwards; transform: translate(-50%, -50%);
     }
-    .floating-damage.crit { color: #f43f5e; font-size: 26px; text-shadow: 0 0 12px rgba(244, 63, 94, 0.9); }
+    .floating-damage.crit { color: #f43f5e; font-size: 25px; text-shadow: 0 0 12px rgba(244, 63, 94, 0.9); }
     .floating-damage.lightning { color: #38bdf8; text-shadow: 0 0 12px rgba(56, 189, 248, 0.9); }
     .floating-damage.ice { color: #e0f2fe; text-shadow: 0 0 12px rgba(186, 230, 253, 0.9); }
     .floating-damage.arcane { color: #c084fc; text-shadow: 0 0 12px rgba(192, 132, 252, 0.9); }
@@ -172,42 +156,21 @@
 
     /* TOAST NOTIFICATION */
     #notification-toast {
-      position: absolute;
-      top: 90px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(14, 20, 36, 0.92);
-      border: 1px solid rgba(56, 189, 248, 0.5);
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
-      padding: 8px 20px;
-      border-radius: 8px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      color: #38bdf8;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s, transform 0.3s;
-      z-index: 25;
+      position: absolute; top: 85px; left: 50%; transform: translateX(-50%);
+      background: rgba(14, 20, 36, 0.94); border: 1px solid rgba(56, 189, 248, 0.5);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.3); padding: 8px 20px; border-radius: 8px;
+      font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; color: #38bdf8;
+      pointer-events: none; opacity: 0; transition: opacity 0.3s, transform 0.3s; z-index: 25;
     }
     #notification-toast.show { opacity: 1; transform: translateX(-50%) translateY(5px); }
 
     /* BOTTOM BAR */
     .hud-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
     .combat-log {
-      background: rgba(10, 14, 24, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      padding: 10px 14px;
-      width: 320px;
-      height: 110px;
-      overflow-y: hidden;
-      font-size: 13px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      gap: 3px;
-      backdrop-filter: blur(8px);
+      background: rgba(10, 14, 24, 0.85); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px; padding: 10px 14px; width: 320px; height: 110px; overflow-y: hidden;
+      font-size: 13px; display: flex; flex-direction: column; justify-content: flex-end;
+      gap: 3px; backdrop-filter: blur(8px);
     }
     .log-line { line-height: 1.3; animation: fadeIn 0.2s ease-out; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
@@ -221,53 +184,30 @@
 
     /* ABILITY HOTBAR (5 SLOTS) */
     .ability-bar {
-      display: flex;
-      gap: 12px;
-      background: rgba(12, 16, 26, 0.9);
-      padding: 10px 16px;
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: 14px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(14px);
+      display: flex; gap: 10px; background: rgba(12, 16, 26, 0.9); padding: 10px 16px;
+      border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 14px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7); backdrop-filter: blur(14px);
     }
     .ability-slot {
-      position: relative;
-      width: 64px;
-      height: 64px;
-      background: rgba(20, 26, 40, 0.85);
-      border: 2px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      transition: all 0.2s ease;
-      cursor: pointer;
+      position: relative; width: 62px; height: 62px; background: rgba(20, 26, 40, 0.85);
+      border: 2px solid rgba(255, 255, 255, 0.12); border-radius: 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      overflow: hidden; transition: all 0.2s ease; cursor: pointer;
     }
     .ability-slot:hover { border-color: rgba(56, 189, 248, 0.7); transform: translateY(-2px); }
     .ability-slot.fire { border-color: rgba(249, 115, 22, 0.7); box-shadow: 0 0 12px rgba(249, 115, 22, 0.3); }
     .ability-slot.lightning { border-color: rgba(56, 189, 248, 0.7); box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); }
     .ability-slot.ice { border-color: rgba(147, 197, 253, 0.7); box-shadow: 0 0 12px rgba(147, 197, 253, 0.3); }
     .ability-slot.arcane { border-color: rgba(192, 132, 252, 0.7); box-shadow: 0 0 12px rgba(192, 132, 252, 0.3); }
-    .ability-icon { font-size: 22px; margin-bottom: 2px; }
+    .ability-icon { font-size: 20px; margin-bottom: 2px; }
     .ability-name { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #e2e8f0; }
     .ability-key {
-      position: absolute;
-      top: 3px;
-      left: 5px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 9px;
-      font-weight: 800;
-      color: #94a3b8;
-      background: rgba(0, 0, 0, 0.65);
-      padding: 1px 4px;
-      border-radius: 3px;
+      position: absolute; top: 3px; left: 5px; font-family: 'Orbitron', sans-serif;
+      font-size: 9px; font-weight: 800; color: #94a3b8; background: rgba(0, 0, 0, 0.65);
+      padding: 1px 4px; border-radius: 3px;
     }
     .cooldown-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 0%;
-      background: rgba(0, 0, 0, 0.8);
+      position: absolute; top: 0; left: 0; width: 100%; height: 0%; background: rgba(0, 0, 0, 0.8);
       display: flex; align-items: center; justify-content: center;
       font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 900; color: #fff;
       pointer-events: none; transition: height 0.05s linear;
@@ -275,52 +215,70 @@
 
     /* CONTROLS GUIDE */
     .controls-panel {
-      background: rgba(12, 16, 26, 0.88);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 12px;
-      line-height: 1.5;
-      backdrop-filter: blur(10px);
-      width: 250px;
+      background: rgba(12, 16, 26, 0.9); border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px; padding: 10px 14px; font-size: 12px; line-height: 1.45;
+      backdrop-filter: blur(10px); width: 250px;
     }
     .controls-panel kbd {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      padding: 1px 5px;
-      border-radius: 4px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 9px;
-      color: #38bdf8;
+      background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 1px 5px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 9px; color: #38bdf8;
     }
 
-    /* SPELLBOOK / GRIMOIRE MODAL */
-    #spellbook-modal {
+    /* MAP SELECTION MODAL (PHASE 3) */
+    #map-modal {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(4, 6, 12, 0.88); backdrop-filter: blur(18px);
+      z-index: 100; display: none; align-items: center; justify-content: center; pointer-events: auto;
+    }
+    .map-box {
+      background: #0b111e; border: 1px solid rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 60px rgba(56, 189, 248, 0.25); border-radius: 16px;
+      width: 920px; max-width: 95vw; padding: 24px; max-height: 90vh; overflow-y: auto;
+    }
+    .map-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+    .map-card {
+      background: rgba(18, 24, 38, 0.85); border: 2px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+      transition: all 0.25s; cursor: pointer; position: relative;
+    }
+    .map-card:hover { border-color: #38bdf8; transform: translateY(-4px); box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3); }
+    .map-card.active-map { border-color: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.1); }
+    .map-img-wrap { width: 100%; height: 140px; position: relative; overflow: hidden; background: #000; }
+    .map-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .map-card:hover .map-img { transform: scale(1.05); }
+    .map-badge-tag {
+      position: absolute; top: 8px; right: 8px; font-family: 'Orbitron'; font-size: 9px; font-weight: 800;
+      padding: 3px 8px; border-radius: 4px; background: rgba(0, 0, 0, 0.75); color: #38bdf8; border: 1px solid #38bdf8;
+    }
+    .map-content { padding: 14px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; }
+    .map-title { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 800; color: #f1f5f9; margin-bottom: 4px; }
+    .map-desc { font-size: 12px; color: #94a3b8; line-height: 1.4; margin-bottom: 12px; }
+    .map-specs { font-size: 11px; color: #cbd5e1; background: rgba(0,0,0,0.3); padding: 6px 8px; border-radius: 6px; margin-bottom: 12px; }
+    .btn-select-map {
+      background: #0284c7; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 800;
+      padding: 9px; border: none; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s;
+    }
+    .btn-select-map:hover { background: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.6); }
+
+    /* SPELLBOOK & LOADOUT MODALS */
+    #spellbook-modal, #loadout-modal {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(4, 6, 12, 0.85); backdrop-filter: blur(16px);
       z-index: 100; display: none; align-items: center; justify-content: center; pointer-events: auto;
     }
-    .spellbook-box {
-      background: #0b101c;
-      border: 1px solid rgba(168, 85, 247, 0.45);
-      box-shadow: 0 0 60px rgba(168, 85, 247, 0.25), 0 20px 50px rgba(0, 0, 0, 0.8);
-      border-radius: 16px;
-      width: 860px; max-width: 95vw; max-height: 90vh;
-      display: flex; flex-direction: column; overflow: hidden;
+    .modal-box {
+      background: #0b101c; border: 1px solid rgba(168, 85, 247, 0.45);
+      box-shadow: 0 0 60px rgba(168, 85, 247, 0.25); border-radius: 16px;
+      width: 860px; max-width: 95vw; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;
     }
-    .spellbook-header {
+    .modal-header {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 18px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(18, 24, 40, 0.6);
+      padding: 16px 22px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(18, 24, 40, 0.6);
     }
-    .spellbook-title {
-      font-family: 'Orbitron', sans-serif; font-size: 18px; color: #c084fc; letter-spacing: 1.5px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .spellbook-tabs {
-      display: flex; gap: 8px; padding: 12px 24px; background: rgba(10, 14, 24, 0.8);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
+    .modal-title { font-family: 'Orbitron', sans-serif; font-size: 17px; color: #c084fc; letter-spacing: 1.5px; }
+    .close-btn { background: none; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; }
+    .close-btn:hover { color: #fff; }
+    .spellbook-tabs { display: flex; gap: 8px; padding: 12px 22px; background: rgba(10, 14, 24, 0.8); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
     .spell-tab {
       background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12);
       color: #cbd5e1; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700;
@@ -328,45 +286,28 @@
     }
     .spell-tab:hover { background: rgba(168, 85, 247, 0.2); border-color: #a855f7; color: #fff; }
     .spell-tab.active { background: rgba(168, 85, 247, 0.3); border-color: #c084fc; color: #c084fc; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
-    .spellbook-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
-      padding: 24px; overflow-y: auto; max-height: 520px;
-    }
+    .spellbook-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 22px; overflow-y: auto; max-height: 520px; }
     .spell-card {
-      background: rgba(18, 24, 38, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px; padding: 14px; display: flex; flex-direction: column;
-      justify-content: space-between; transition: all 0.2s; position: relative;
+      background: rgba(18, 24, 38, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between;
+      transition: all 0.2s;
     }
-    .spell-card:hover { border-color: rgba(56, 189, 248, 0.6); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
+    .spell-card:hover { border-color: rgba(56, 189, 248, 0.6); transform: translateY(-3px); }
     .spell-card.locked { opacity: 0.5; filter: grayscale(0.6); }
     .spell-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-    .spell-card-icon { font-size: 26px; }
-    .spell-card-title { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 800; color: #f1f5f9; letter-spacing: 0.5px; }
+    .spell-card-icon { font-size: 24px; }
+    .spell-card-title { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 800; color: #f1f5f9; }
     .spell-card-element { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #fb923c; margin-top: 2px; }
-    .spell-card-desc { font-size: 12px; line-height: 1.4; color: #94a3b8; margin: 8px 0; min-height: 42px; }
+    .spell-card-desc { font-size: 12px; line-height: 1.4; color: #94a3b8; margin: 8px 0; min-height: 40px; }
     .spell-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 11px; color: #cbd5e1; margin-bottom: 12px; background: rgba(0,0,0,0.3); padding: 6px; border-radius: 6px; }
     .spell-card-btn {
       background: #0284c7; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 800;
       padding: 7px; border: none; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s;
     }
-    .spell-card-btn:hover { background: #38bdf8; box-shadow: 0 0 12px rgba(56, 189, 248, 0.6); }
+    .spell-card-btn:hover { background: #38bdf8; }
     .spell-card-btn.equipped { background: #15803d; color: #86efac; border: 1px solid #22c55e; }
 
-    /* LOADOUT / CHARACTER SELECT MODAL */
-    #loadout-modal {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(14px);
-      z-index: 100; display: none; align-items: center; justify-content: center; pointer-events: auto;
-    }
-    .modal-box {
-      background: #0d1220; border: 1px solid rgba(56, 189, 248, 0.45);
-      box-shadow: 0 0 60px rgba(56, 189, 248, 0.25); border-radius: 16px;
-      width: 700px; max-width: 90vw; padding: 26px; max-height: 90vh; overflow-y: auto;
-    }
-    .close-btn { background: none; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; }
-    .close-btn:hover { color: #fff; }
-    .config-title { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; color: #a78bfa; margin-bottom: 8px; letter-spacing: 1px; }
+    /* CHARACTER CARDS IN LOADOUT */
     .char-select-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
     .char-card {
       background: rgba(255, 255, 255, 0.04); border: 2px solid rgba(255, 255, 255, 0.12);
@@ -386,10 +327,11 @@
       z-index: 15; pointer-events: none; transition: opacity 0.5s; box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
     }
   </style>
-  <!-- Three.js + FBXLoader + fflate -->
+  <!-- Three.js + FBXLoader + GLTFLoader + fflate -->
   <script src="/assets/libs/three.min.js"></script>
   <script src="/assets/libs/fflate.min.js"></script>
   <script src="/assets/libs/FBXLoader.js"></script>
+  <script src="/assets/libs/GLTFLoader.js"></script>
 </head>
 <body>
   <div id="canvas-container"></div>
@@ -403,9 +345,9 @@
         <div class="player-header">
           <div class="player-name" id="hud-name">
             <span id="player-char-name">ARMORED GOLEM</span>
-            <span class="char-badge" id="player-rig-badge">3D FBX RIG</span>
+            <span class="char-badge" id="player-rig-badge">FBX PBR RIG</span>
           </div>
-          <span class="element-badge" id="hud-element-badge">FIRE & LIGHTNING</span>
+          <span class="map-badge" id="hud-current-map-badge">COLOSSEUM</span>
         </div>
         <div class="bar-group">
           <div class="bar-row">
@@ -434,18 +376,19 @@
       <!-- Target Status -->
       <div class="target-card">
         <div class="target-title">COMBAT AUTOMATON</div>
-        <div class="bar-track" style="height: 12px;">
+        <div class="bar-track" style="height: 11px;">
           <div class="bar-fill hp" id="bar-target-hp" style="width: 100%;"></div>
         </div>
-        <div style="font-size: 11px; margin-top: 4px; color: #94a3b8; font-family: 'Orbitron';">
+        <div style="font-size: 11px; margin-top: 3px; color: #94a3b8; font-family: 'Orbitron';">
           HP: <span id="val-target-hp">250</span> / 250
         </div>
       </div>
 
       <!-- Top Right Actions -->
       <div class="top-actions">
-        <button class="hud-btn" id="btn-open-spellbook">📖 SPELLBOOK [K]</button>
-        <button class="hud-btn" id="btn-open-loadout">⚙ CHARACTERS & LOADOUT [TAB]</button>
+        <button class="hud-btn active-btn" id="btn-open-maps">🗺 MAPS [M]</button>
+        <button class="hud-btn" id="btn-open-spellbook">📖 SPELLS [K]</button>
+        <button class="hud-btn" id="btn-open-loadout">⚙ HERO [TAB]</button>
       </div>
     </div>
 
@@ -469,48 +412,43 @@
 
     <div id="start-hint">
       CLICK TO ENGAGE 3D COMBAT<br>
-      <span style="font-size: 11px; color: #94a3b8;">(Aim: Mouse | Fire: L-Click | ADS: R-Click | Spells: Q, E, R, F)</span>
+      <span style="font-size: 11px; color: #94a3b8;">(Maps: M | Spells: K | Loadout: TAB | ADS: R-Click | Fire: L-Click)</span>
     </div>
 
     <!-- Bottom Bar -->
     <div class="hud-bottom">
       <!-- Combat Log -->
       <div class="combat-log" id="combat-log">
-        <div class="log-line log-system">Elemental Arena Engine v2.0 initialized.</div>
-        <div class="log-line log-system">Audio synthesizer active. Target Automaton deployed.</div>
+        <div class="log-line log-system">Elemental Arena Engine initialized.</div>
+        <div class="log-line log-system">Select maps via [M], cast spells with Q/E/R/F.</div>
       </div>
 
       <!-- Ability Hotbar (5 Configurable Spell Slots) -->
       <div class="ability-bar">
-        <!-- Slot 1: Primary [L-Click] -->
         <div class="ability-slot active" id="slot-0" title="Primary Spell">
           <span class="ability-key">L-CLK</span>
           <div class="ability-icon" id="slot-0-icon">🔥</div>
           <span class="ability-name" id="slot-0-name">FIREBALL</span>
           <div class="cooldown-overlay" id="cd-0"></div>
         </div>
-        <!-- Slot 2: Spell 1 [Q] -->
         <div class="ability-slot fire" id="slot-1" title="Fire Ability">
           <span class="ability-key">Q</span>
           <div class="ability-icon" id="slot-1-icon">💥</div>
           <span class="ability-name" id="slot-1-name">BURST</span>
           <div class="cooldown-overlay" id="cd-1"></div>
         </div>
-        <!-- Slot 3: Spell 2 [E] -->
         <div class="ability-slot lightning" id="slot-2" title="Lightning Ability">
           <span class="ability-key">E</span>
           <div class="ability-icon" id="slot-2-icon">⚡</div>
           <span class="ability-name" id="slot-2-name">SURGE</span>
           <div class="cooldown-overlay" id="cd-2"></div>
         </div>
-        <!-- Slot 4: Spell 3 [R] -->
         <div class="ability-slot ice" id="slot-3" title="Ice Ability">
           <span class="ability-key">R</span>
           <div class="ability-icon" id="slot-3-icon">❄</div>
           <span class="ability-name" id="slot-3-name">SHARD</span>
           <div class="cooldown-overlay" id="cd-3"></div>
         </div>
-        <!-- Slot 5: Utility [F] -->
         <div class="ability-slot arcane" id="slot-4" title="Arcane Ability">
           <span class="ability-key">F</span>
           <div class="ability-icon" id="slot-4-icon">🔮</div>
@@ -521,24 +459,81 @@
 
       <!-- Controls Guide -->
       <div class="controls-panel">
-        <div style="font-weight: 700; color: #38bdf8; margin-bottom: 4px; font-family: 'Orbitron'; font-size: 11px;">ADVANCED CONTROLS</div>
+        <div style="font-weight: 700; color: #38bdf8; margin-bottom: 3px; font-family: 'Orbitron'; font-size: 11px;">ARENA CONTROLS</div>
         <div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move / Strafe</div>
         <div><kbd>SHIFT</kbd> Sprint &nbsp;|&nbsp; <kbd>SPACE</kbd> Jump</div>
         <div><kbd>R-CLICK</kbd> Aim-Down-Sights (ADS)</div>
         <div><kbd>L-CLICK</kbd> Cast Primary</div>
-        <div><kbd>Q</kbd><kbd>E</kbd><kbd>R</kbd><kbd>F</kbd> Cast Spells</div>
-        <div><kbd>K</kbd> Spellbook &nbsp;|&nbsp; <kbd>TAB</kbd> Loadout</div>
+        <div><kbd>M</kbd> Maps &nbsp;|&nbsp; <kbd>K</kbd> Spells &nbsp;|&nbsp; <kbd>TAB</kbd> Loadout</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP SELECTION MODAL (PHASE 3) -->
+  <div id="map-modal">
+    <div class="map-box">
+      <div class="modal-header">
+        <div class="modal-title" style="color: #38bdf8;">🗺 SELECT ARENA ENVIRONMENT</div>
+        <button class="close-btn" id="btn-close-maps">×</button>
+      </div>
+
+      <div class="map-grid">
+        <!-- 1. Colosseum -->
+        <div class="map-card active-map" data-map="colosseum">
+          <div class="map-img-wrap">
+            <img class="map-img" src="/assets/maps/previews/colosseum.jpg" alt="Colosseum">
+            <span class="map-badge-tag">HIGH-TECH ARENA</span>
+          </div>
+          <div class="map-content">
+            <div>
+              <div class="map-title">COLOSSEUM ARENA</div>
+              <div class="map-desc">High-tech sci-fi colosseum with glowing forcefield pylons, center levitating monolith, and elevated tactical platforms.</div>
+              <div class="map-specs">Type: Open Colosseum | Size: 120m | Atmosphere: Cosmic Night</div>
+            </div>
+            <button class="btn-select-map" data-select="colosseum">DEPLOY TO COLOSSEUM</button>
+          </div>
+        </div>
+
+        <!-- 2. School Campus -->
+        <div class="map-card" data-map="school">
+          <div class="map-img-wrap">
+            <img class="map-img" src="/assets/maps/previews/school.jpg" alt="School">
+            <span class="map-badge-tag">ACADEMY CAMPUS</span>
+          </div>
+          <div class="map-content">
+            <div>
+              <div class="map-title">SCHOOL CAMPUS (RAIMON)</div>
+              <div class="map-desc">Authentic Collège Raimon 3D academy environment with academic hall, classroom wings, courtyard, gates, and athletic grounds.</div>
+              <div class="map-specs">Type: Academic Grounds | Size: 160m | Atmosphere: Clear Day</div>
+            </div>
+            <button class="btn-select-map" data-select="school">DEPLOY TO SCHOOL</button>
+          </div>
+        </div>
+
+        <!-- 3. Fantastic Village -->
+        <div class="map-card" data-map="village">
+          <div class="map-img-wrap">
+            <img class="map-img" src="/assets/maps/previews/village.jpg" alt="Village">
+            <span class="map-badge-tag">MEDIEVAL VILLAGE</span>
+          </div>
+          <div class="map-content">
+            <div>
+              <div class="map-title">FANTASTIC VILLAGE</div>
+              <div class="map-desc">Medieval settlement with timbered cottages, stone fences, village square, cobblestone pathways, and tactical cover.</div>
+              <div class="map-specs">Type: Medieval Settlement | Size: 140m | Atmosphere: Golden Sun</div>
+            </div>
+            <button class="btn-select-map" data-select="village">DEPLOY TO VILLAGE</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- SPELLBOOK MODAL -->
   <div id="spellbook-modal">
-    <div class="spellbook-box">
-      <div class="spellbook-header">
-        <div class="spellbook-title">
-          <span>📖 ELEMENTAL GRIMOIRE & SPELLBOOK</span>
-        </div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">📖 ELEMENTAL GRIMOIRE & SPELLBOOK</div>
         <button class="close-btn" id="btn-close-spellbook">×</button>
       </div>
       <div class="spellbook-tabs">
@@ -548,61 +543,47 @@
         <button class="spell-tab" data-tab="ice">❄ ICE</button>
         <button class="spell-tab" data-tab="arcane">🔮 ARCANE</button>
       </div>
-      <div class="spellbook-grid" id="spellbook-grid">
-        <!-- Rendered via JS -->
-      </div>
+      <div class="spellbook-grid" id="spellbook-grid"></div>
     </div>
   </div>
 
   <!-- LOADOUT / CHARACTER SELECT MODAL -->
   <div id="loadout-modal">
-    <div class="modal-box">
-      <div class="player-header" style="margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
-        <h2 style="font-family: 'Orbitron'; font-size: 18px; color: #38bdf8;">COMBATANT LOADOUT</h2>
+    <div class="modal-box" style="padding: 24px;">
+      <div class="modal-header" style="background: none; padding: 0 0 12px 0;">
+        <h2 style="font-family: 'Orbitron'; font-size: 17px; color: #38bdf8;">COMBATANT LOADOUT</h2>
         <button class="close-btn" id="btn-close-loadout">×</button>
       </div>
 
-      <div class="config-title">SELECT 3D CHARACTER MODEL</div>
+      <div style="font-family: 'Orbitron'; font-size: 11px; font-weight: 700; color: #a78bfa; margin-bottom: 8px;">SELECT 3D CHARACTER MODEL</div>
       <div class="char-select-grid">
         <div class="char-card selected" data-char="golem">
-          <div style="font-size: 32px;">🗿</div>
+          <div style="font-size: 30px;">🗿</div>
           <div class="char-card-name">ARMORED STONE GOLEM</div>
-          <div class="char-card-desc">Supplied FBX character with heavy armor PBR textures & high endurance.</div>
+          <div class="char-card-desc">Supplied FBX model with full 27 PBR textures & high endurance.</div>
         </div>
         <div class="char-card" data-char="rogue">
-          <div style="font-size: 32px;">🗡</div>
+          <div style="font-size: 30px;">🗡</div>
           <div class="char-card-name">SHADOW ROGUE</div>
-          <div class="char-card-desc">Supplied FBX assassin character with fast movement & high agility.</div>
+          <div class="char-card-desc">Supplied FBX assassin character with fast agile movement.</div>
         </div>
         <div class="char-card" data-char="mech">
-          <div style="font-size: 32px;">🤖</div>
-          <div class="char-card-name">ELEMENTAL MECH CHASSIS</div>
-          <div class="char-card-desc">Tactical cyber-gladiator chassis with modular elemental reactor core.</div>
+          <div style="font-size: 30px;">🤖</div>
+          <div class="char-card-name">ELEMENTAL MECH</div>
+          <div class="char-card-desc">Tactical chassis with modular glowing elemental core.</div>
         </div>
       </div>
 
-      <div class="config-title">PRIMARY ELEMENTAL AFFINITY</div>
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;">
+      <div style="font-family: 'Orbitron'; font-size: 11px; font-weight: 700; color: #a78bfa; margin-bottom: 8px;">PRIMARY ELEMENTAL AFFINITY</div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px;">
         <button class="hud-btn active-btn" style="justify-content: center;" data-element="fire">🔥 FIRE</button>
         <button class="hud-btn" style="justify-content: center;" data-element="lightning">⚡ LIGHTNING</button>
         <button class="hud-btn" style="justify-content: center;" data-element="ice">❄ ICE</button>
         <button class="hud-btn" style="justify-content: center;" data-element="arcane">🔮 ARCANE</button>
       </div>
 
-      <div class="config-title">CAMERA & AIM SETTINGS</div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; font-size: 13px;">
-        <div>
-          <label style="display: block; margin-bottom: 4px; color: #94a3b8;">Mouse Sensitivity: <span id="val-sens">2.2</span></label>
-          <input type="range" id="slider-sens" min="0.5" max="5.0" step="0.1" value="2.2" style="width: 100%;">
-        </div>
-        <div>
-          <label style="display: block; margin-bottom: 4px; color: #94a3b8;">Field of View (FOV): <span id="val-fov">65</span>°</label>
-          <input type="range" id="slider-fov" min="50" max="90" step="1" value="65" style="width: 100%;">
-        </div>
-      </div>
-
       <div style="display: flex; justify-content: flex-end; gap: 10px;">
-        <button class="hud-btn active-btn" id="btn-apply-loadout" style="padding: 10px 24px;">APPLY & RESUME COMBAT</button>
+        <button class="hud-btn active-btn" id="btn-apply-loadout" style="padding: 9px 22px;">APPLY & RESUME COMBAT</button>
       </div>
     </div>
   </div>
@@ -613,17 +594,13 @@
     // 1. SOUND SYNTHESIZER (WEB AUDIO API)
     // ==========================================
     class SoundEngine {
-      constructor() {
-        this.ctx = null;
-      }
+      constructor() { this.ctx = null; }
       init() {
         if (!this.ctx) {
           const AudioContext = window.AudioContext || window.webkitAudioContext;
           this.ctx = new AudioContext();
         }
-        if (this.ctx.state === 'suspended') {
-          this.ctx.resume();
-        }
+        if (this.ctx.state === 'suspended') this.ctx.resume();
       }
       playHitTick() {
         if (!this.ctx) return;
@@ -634,15 +611,12 @@
         osc.frequency.exponentialRampToValueAtTime(300, this.ctx.currentTime + 0.08);
         gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.08);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(this.ctx.currentTime + 0.08);
       }
       playFireballCast() {
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
-        // Low whoosh
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'sine';
@@ -650,21 +624,16 @@
         osc.frequency.exponentialRampToValueAtTime(380, now + 0.25);
         gain.gain.setValueAtTime(0.3, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(now + 0.35);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(now + 0.35);
       }
       playExplosion() {
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
-        // Noise buffer for blast
         const bufferSize = this.ctx.sampleRate * 0.45;
         const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
         const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.15));
-        }
+        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.15));
         const noise = this.ctx.createBufferSource();
         noise.buffer = buffer;
         const filter = this.ctx.createBiquadFilter();
@@ -674,9 +643,7 @@
         const gain = this.ctx.createGain();
         gain.gain.setValueAtTime(0.45, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.ctx.destination);
+        noise.connect(filter); filter.connect(gain); gain.connect(this.ctx.destination);
         noise.start();
       }
       playThunder() {
@@ -689,10 +656,8 @@
         osc.frequency.exponentialRampToValueAtTime(120, now + 0.22);
         gain.gain.setValueAtTime(0.35, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(now + 0.25);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(now + 0.25);
       }
       playIceShard() {
         if (!this.ctx) return;
@@ -704,10 +669,8 @@
         osc.frequency.exponentialRampToValueAtTime(2100, now + 0.12);
         gain.gain.setValueAtTime(0.2, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(now + 0.15);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(now + 0.15);
       }
       playArcane() {
         if (!this.ctx) return;
@@ -719,10 +682,8 @@
         osc.frequency.exponentialRampToValueAtTime(740, now + 0.25);
         gain.gain.setValueAtTime(0.25, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(now + 0.3);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(now + 0.3);
       }
       playReadyBeep() {
         if (!this.ctx) return;
@@ -733,10 +694,8 @@
         osc.frequency.setValueAtTime(880, now);
         gain.gain.setValueAtTime(0.12, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(now + 0.1);
+        osc.connect(gain); gain.connect(this.ctx.destination);
+        osc.start(); osc.stop(now + 0.1);
       }
     }
     const audio = new SoundEngine();
@@ -745,7 +704,6 @@
     // 2. SPELL CATALOG (24 SPELLS DEFINITION)
     // ==========================================
     const SPELL_CATALOG = [
-      // FIRE
       { id: 'fireball', name: 'Fireball', element: 'fire', icon: '🔥', desc: 'Hurls an explosive sphere of combustion, igniting the area.', damage: 45, cooldown: 4.0, range: 60, cost: 20, playable: true },
       { id: 'flame-burst', name: 'Flame Burst', element: 'fire', icon: '💥', desc: 'Emits a 360° ring of incandescent flames incinerating nearby foes.', damage: 50, cooldown: 5.5, range: 10, cost: 25, playable: true },
       { id: 'inferno-wave', name: 'Inferno Wave', element: 'fire', icon: '🌊', desc: 'Launches a forward-rolling surge of magma along the terrain.', damage: 38, cooldown: 6.0, range: 35, cost: 30, playable: true },
@@ -753,7 +711,6 @@
       { id: 'flame-dash', name: 'Flame Dash', element: 'fire', icon: '💨', desc: 'Propels caster forward leaving a scorch trail.', damage: 20, cooldown: 8.0, range: 18, cost: 15, playable: false },
       { id: 'firestorm', name: 'Firestorm', element: 'fire', icon: '🌪', desc: 'Summons a vortex of continuous thermal damage.', damage: 85, cooldown: 22.0, range: 30, cost: 70, playable: false },
 
-      // LIGHTNING
       { id: 'thunder-surge', name: 'Thunder Surge', element: 'lightning', icon: '⚡', desc: 'High-velocity electric bolt arcing directly into the target.', damage: 65, cooldown: 3.5, range: 75, cost: 22, playable: true },
       { id: 'chain-lightning', name: 'Chain Lightning', element: 'lightning', icon: '🌩', desc: 'Electric discharge jumping across clustered adversaries.', damage: 55, cooldown: 7.0, range: 45, cost: 35, playable: false },
       { id: 'lightning-strike', name: 'Lightning Strike', element: 'lightning', icon: '⚡️', desc: 'Calls a blinding bolt down from the skybox onto the reticle.', damage: 90, cooldown: 12.0, range: 50, cost: 45, playable: false },
@@ -761,7 +718,6 @@
       { id: 'electric-field', name: 'Electric Field', element: 'lightning', icon: '🌐', desc: 'Deploys a hazardous electrified grid that stuns targets.', damage: 45, cooldown: 14.0, range: 25, cost: 40, playable: false },
       { id: 'overcharge', name: 'Overcharge', element: 'lightning', icon: '🔋', desc: 'Empowers magic attacks with bonus arc damage for 6s.', damage: 0, cooldown: 25.0, range: 0, cost: 50, playable: false },
 
-      // ICE
       { id: 'ice-shard', name: 'Ice Shard', element: 'ice', icon: '❄️', desc: 'Launches a crystalline glacial dart that shatters on impact.', damage: 40, cooldown: 2.8, range: 65, cost: 15, playable: true },
       { id: 'frost-nova', name: 'Frost Nova', element: 'ice', icon: '💠', desc: 'Freezes the arena floor around the caster in an expanding wave.', damage: 35, cooldown: 8.0, range: 12, cost: 30, playable: false },
       { id: 'ice-wall', name: 'Ice Wall', element: 'ice', icon: '🧊', desc: 'Erects an impassable glacial barrier blocking projectiles.', damage: 0, cooldown: 16.0, range: 20, cost: 35, playable: false },
@@ -769,7 +725,6 @@
       { id: 'blizzard', name: 'Blizzard', element: 'ice', icon: '🌨', desc: 'Conjures a localized hail and blizzard storm.', damage: 70, cooldown: 20.0, range: 40, cost: 65, playable: false },
       { id: 'frost-shield', name: 'Frost Shield', element: 'ice', icon: '🛡', desc: 'Crystallizes 70 barrier points absorbing incoming attacks.', damage: 0, cooldown: 15.0, range: 0, cost: 40, playable: false },
 
-      // ARCANE
       { id: 'arcane-bolt', name: 'Arcane Bolt', element: 'arcane', icon: '🔮', desc: 'Concentrated orb of pure mana creating a spatial implosion.', damage: 55, cooldown: 4.5, range: 70, cost: 24, playable: true },
       { id: 'energy-beam', name: 'Energy Beam', element: 'arcane', icon: '✨', desc: 'Continuous channel of focused photonic energy.', damage: 60, cooldown: 9.0, range: 45, cost: 50, playable: false },
       { id: 'blink', name: 'Blink', element: 'arcane', icon: '🌀', desc: 'Spacetime teleportation 14m in camera direction.', damage: 0, cooldown: 7.0, range: 14, cost: 20, playable: false },
@@ -779,9 +734,10 @@
     ];
 
     // ==========================================
-    // 3. GAME STATE & LOADOUT
+    // 3. GAME STATE & MULTI-MAP SETTINGS
     // ==========================================
     const STATE = {
+      currentMap: 'colosseum', // 'colosseum' | 'school' | 'village'
       player: {
         maxHp: 100, hp: 100,
         maxShield: 50, shield: 50,
@@ -792,31 +748,17 @@
         currentChar: 'golem', // 'golem' | 'rogue' | 'mech'
         primaryElement: 'fire',
         pos: new THREE.Vector3(0, 0, -22),
-        yaw: 0,
-        pitch: 0.15,
-        isGrounded: true,
-        isSprinting: false,
-        isADS: false,
-        verticalVel: 0,
-        castingAnimTimer: 0
+        yaw: 0, pitch: 0.15,
+        isGrounded: true, isSprinting: false, isADS: false,
+        verticalVel: 0, castingAnimTimer: 0
       },
       targetDummy: {
         maxHp: 250, hp: 250,
         pos: new THREE.Vector3(0, 0, 25),
         isDead: false
       },
-      settings: {
-        sens: 0.0022,
-        fov: 65,
-        adsFov: 46
-      },
-      equippedSlots: [
-        'fireball',       // Slot 0 [L-Click]
-        'flame-burst',    // Slot 1 [Q]
-        'thunder-surge',  // Slot 2 [E]
-        'ice-shard',      // Slot 3 [R]
-        'arcane-bolt'     // Slot 4 [F]
-      ],
+      settings: { sens: 0.0022, fov: 65, adsFov: 46 },
+      equippedSlots: ['fireball', 'flame-burst', 'thunder-surge', 'ice-shard', 'arcane-bolt'],
       cooldowns: [0, 0, 0, 0, 0]
     };
 
@@ -838,9 +780,7 @@
     renderer.toneMappingExposure = 1.25;
     container.appendChild(renderer.domElement);
 
-    // ==========================================
-    // 5. LIGHTING & ATMOSPHERE
-    // ==========================================
+    // Dynamic light & sunlight
     const ambientLight = new THREE.AmbientLight(0x1e293b, 1.4);
     scene.add(ambientLight);
 
@@ -850,110 +790,332 @@
     sunLight.shadow.mapSize.width = 2048;
     sunLight.shadow.mapSize.height = 2048;
     sunLight.shadow.camera.near = 10;
-    sunLight.shadow.camera.far = 180;
-    sunLight.shadow.camera.left = -65;
-    sunLight.shadow.camera.right = 65;
-    sunLight.shadow.camera.top = 65;
-    sunLight.shadow.camera.bottom = -65;
+    sunLight.shadow.camera.far = 250;
+    sunLight.shadow.camera.left = -80;
+    sunLight.shadow.camera.right = 80;
+    sunLight.shadow.camera.top = 80;
+    sunLight.shadow.camera.bottom = -80;
     scene.add(sunLight);
 
-    // Dynamic casting point light (illuminates world during fireball/spells)
     const spellDynamicLight = new THREE.PointLight(0xff7700, 0, 25);
     scene.add(spellDynamicLight);
 
     // ==========================================
-    // 6. UPGRADED ARENA (COLOSSEUM)
+    // 5. ENVIRONMENT / MAP MANAGEMENT
     // ==========================================
-    const arenaRadius = 58;
-    const arenaGroup = new THREE.Group();
+    const mapRoot = new THREE.Group();
+    scene.add(mapRoot);
 
-    // Floor with grid / metallic shader
-    const floorGeo = new THREE.CylinderGeometry(arenaRadius, arenaRadius, 2, 64);
-    const floorMat = new THREE.MeshStandardMaterial({ color: 0x0f1523, roughness: 0.35, metalness: 0.85 });
-    const floorMesh = new THREE.Mesh(floorGeo, floorMat);
-    floorMesh.position.y = -1;
-    floorMesh.receiveShadow = true;
-    arenaGroup.add(floorMesh);
+    const platformBoxes = []; // Active obstacle colliders for current map
 
-    // Outer Fortress Wall
-    const wallGeo = new THREE.CylinderGeometry(arenaRadius, arenaRadius, 9, 64, 1, true);
-    const wallMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.7, metalness: 0.4, side: THREE.BackSide });
-    const wallMesh = new THREE.Mesh(wallGeo, wallMat);
-    wallMesh.position.y = 4.5;
-    arenaGroup.add(wallMesh);
+    function loadMapEnvironment(mapId) {
+      STATE.currentMap = mapId;
 
-    // Inner Glowing Rings
-    const ring1 = new THREE.Mesh(new THREE.RingGeometry(22, 22.8, 64), new THREE.MeshBasicMaterial({ color: 0x00d4ff, side: THREE.DoubleSide }));
-    ring1.rotation.x = -Math.PI / 2; ring1.position.y = 0.02;
-    arenaGroup.add(ring1);
+      // Clear previous map objects and colliders
+      while (mapRoot.children.length > 0) {
+        mapRoot.remove(mapRoot.children[0]);
+      }
+      platformBoxes.length = 0;
 
-    const ring2 = new THREE.Mesh(new THREE.RingGeometry(44, 44.9, 64), new THREE.MeshBasicMaterial({ color: 0xa855f7, side: THREE.DoubleSide }));
-    ring2.rotation.x = -Math.PI / 2; ring2.position.y = 0.02;
-    arenaGroup.add(ring2);
+      // Update badge
+      document.getElementById('hud-current-map-badge').innerText = mapId.toUpperCase();
 
-    // Perimeter Forcefield Pylons (16 pylons)
-    const pylonGeo = new THREE.CylinderGeometry(0.9, 1.5, 12, 8);
-    const pylonMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.9, roughness: 0.2 });
-    const crystalGeo = new THREE.OctahedronGeometry(1.4);
-    const crystalMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
+      if (mapId === 'colosseum') {
+        buildColosseumMap();
+      } else if (mapId === 'school') {
+        buildSchoolMap();
+      } else if (mapId === 'village') {
+        buildVillageMap();
+      }
 
-    for (let i = 0; i < 16; i++) {
-      const angle = (i / 16) * Math.PI * 2;
-      const x = Math.cos(angle) * (arenaRadius - 2.5);
-      const z = Math.sin(angle) * (arenaRadius - 2.5);
-      const p = new THREE.Mesh(pylonGeo, pylonMat);
-      p.position.set(x, 6, z);
-      p.castShadow = true;
-      arenaGroup.add(p);
+      // Reposition Player and Dummy for selected map
+      playerRoot.position.copy(STATE.player.pos);
+      dummyGroup.position.copy(STATE.targetDummy.pos);
+      STATE.player.verticalVel = 0;
 
-      const c = new THREE.Mesh(crystalGeo, crystalMat);
-      c.position.set(x, 12.5, z);
-      arenaGroup.add(c);
+      addCombatLog(`Deployed to [${mapId.toUpperCase()}] arena.`, 'log-system');
+      showNotification(`ARENA: ${mapId.toUpperCase()}`);
     }
 
-    // Elevated Tactical Cover Platforms (4 multi-level arenas)
-    const platformBoxes = [];
-    const coverCoords = [
-      { x: 19, z: 19, w: 9, h: 2.8, d: 9 },
-      { x: -19, z: 19, w: 9, h: 2.8, d: 9 },
-      { x: 19, z: -19, w: 9, h: 2.8, d: 9 },
-      { x: -19, z: -19, w: 9, h: 2.8, d: 9 },
-      { x: 0, z: 0, w: 14, h: 1.6, d: 14 } // Center platform
-    ];
+    // MAP 1: COLOSSEUM ARENA
+    function buildColosseumMap() {
+      scene.background = new THREE.Color(0x060812);
+      scene.fog = new THREE.FogExp2(0x060812, 0.012);
+      ambientLight.color.setHex(0x1e293b);
+      sunLight.color.setHex(0x93c5fd);
 
-    coverCoords.forEach(c => {
-      const bGeo = new THREE.BoxGeometry(c.w, c.h, c.d);
-      const bMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.35 });
-      const bMesh = new THREE.Mesh(bGeo, bMat);
-      bMesh.position.set(c.x, c.h / 2, c.z);
-      bMesh.castShadow = true;
-      bMesh.receiveShadow = true;
-      arenaGroup.add(bMesh);
+      const arenaRadius = 58;
+      const floor = new THREE.Mesh(
+        new THREE.CylinderGeometry(arenaRadius, arenaRadius, 2, 64),
+        new THREE.MeshStandardMaterial({ color: 0x0f1523, roughness: 0.35, metalness: 0.85 })
+      );
+      floor.position.y = -1; floor.receiveShadow = true; mapRoot.add(floor);
 
-      platformBoxes.push({
-        box: new THREE.Box3().setFromObject(bMesh),
-        height: c.h
+      const wall = new THREE.Mesh(
+        new THREE.CylinderGeometry(arenaRadius, arenaRadius, 9, 64, 1, true),
+        new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.7, metalness: 0.4, side: THREE.BackSide })
+      );
+      wall.position.y = 4.5; mapRoot.add(wall);
+
+      // Rings
+      const r1 = new THREE.Mesh(new THREE.RingGeometry(22, 22.8, 64), new THREE.MeshBasicMaterial({ color: 0x00d4ff, side: THREE.DoubleSide }));
+      r1.rotation.x = -Math.PI / 2; r1.position.y = 0.02; mapRoot.add(r1);
+
+      // 16 Pylons
+      for (let i = 0; i < 16; i++) {
+        const ang = (i / 16) * Math.PI * 2;
+        const x = Math.cos(ang) * (arenaRadius - 2.5);
+        const z = Math.sin(ang) * (arenaRadius - 2.5);
+        const p = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 1.5, 12, 8), new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.9 }));
+        p.position.set(x, 6, z); p.castShadow = true; mapRoot.add(p);
+      }
+
+      // Tactical Platforms
+      const covers = [
+        { x: 19, z: 19, w: 9, h: 2.8, d: 9 },
+        { x: -19, z: 19, w: 9, h: 2.8, d: 9 },
+        { x: 19, z: -19, w: 9, h: 2.8, d: 9 },
+        { x: -19, z: -19, w: 9, h: 2.8, d: 9 },
+        { x: 0, z: 0, w: 14, h: 1.6, d: 14 }
+      ];
+      covers.forEach(c => {
+        const b = new THREE.Mesh(new THREE.BoxGeometry(c.w, c.h, c.d), new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.35 }));
+        b.position.set(c.x, c.h / 2, c.z); b.castShadow = true; b.receiveShadow = true; mapRoot.add(b);
+        platformBoxes.push({ box: new THREE.Box3().setFromObject(b), height: c.h });
       });
-    });
 
-    // Center Floating Monolith Crystal
-    const monolithCrystal = new THREE.Mesh(
-      new THREE.OctahedronGeometry(2.8),
-      new THREE.MeshStandardMaterial({ color: 0x38bdf8, emissive: 0x0284c7, metalness: 0.9, roughness: 0.1 })
-    );
-    monolithCrystal.position.set(0, 6.8, 0);
-    arenaGroup.add(monolithCrystal);
+      // Floating Monolith
+      const mono = new THREE.Mesh(new THREE.OctahedronGeometry(2.8), new THREE.MeshStandardMaterial({ color: 0x38bdf8, emissive: 0x0284c7, metalness: 0.9 }));
+      mono.position.set(0, 6.8, 0); mapRoot.add(mono);
 
-    scene.add(arenaGroup);
+      STATE.player.pos.set(0, 0, -22);
+      STATE.targetDummy.pos.set(0, 0, 25);
+    }
+
+    // MAP 2: SCHOOL CAMPUS (COLLÈGE RAIMON)
+    function buildSchoolMap() {
+      scene.background = new THREE.Color(0x7dd3fc); // Daylight Sky
+      scene.fog = new THREE.FogExp2(0xbae6fd, 0.007);
+      ambientLight.color.setHex(0xf1f5f9);
+      sunLight.color.setHex(0xfef08a);
+      sunLight.position.set(60, 90, 40);
+
+      // School Grounds (Large Paved Courtyard & Asphalt)
+      const campusGround = new THREE.Mesh(
+        new THREE.PlaneGeometry(160, 160),
+        new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.8, metalness: 0.2 })
+      );
+      campusGround.rotation.x = -Math.PI / 2; campusGround.receiveShadow = true; mapRoot.add(campusGround);
+
+      // Running Track / Athletics Field (Green Grass Area)
+      const sportsField = new THREE.Mesh(
+        new THREE.PlaneGeometry(60, 100),
+        new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.9 })
+      );
+      sportsField.rotation.x = -Math.PI / 2; sportsField.position.set(40, 0.02, 0); sportsField.receiveShadow = true; mapRoot.add(sportsField);
+
+      // Main Academic Hall (Building Architecture)
+      const mainBuilding = new THREE.Mesh(
+        new THREE.BoxGeometry(45, 16, 18),
+        new THREE.MeshStandardMaterial({ color: 0xdbeafe, roughness: 0.6, metalness: 0.1 })
+      );
+      mainBuilding.position.set(0, 8, 35); mainBuilding.castShadow = true; mainBuilding.receiveShadow = true; mapRoot.add(mainBuilding);
+      platformBoxes.push({ box: new THREE.Box3().setFromObject(mainBuilding), height: 16 });
+
+      // Roof Trim
+      const roof = new THREE.Mesh(
+        new THREE.BoxGeometry(48, 2.5, 20),
+        new THREE.MeshStandardMaterial({ color: 0x1e3a8a, roughness: 0.4 })
+      );
+      roof.position.set(0, 17, 35); mapRoot.add(roof);
+
+      // Clock Tower
+      const tower = new THREE.Mesh(
+        new THREE.BoxGeometry(8, 26, 8),
+        new THREE.MeshStandardMaterial({ color: 0x93c5fd, roughness: 0.5 })
+      );
+      tower.position.set(0, 13, 35); tower.castShadow = true; mapRoot.add(tower);
+      platformBoxes.push({ box: new THREE.Box3().setFromObject(tower), height: 26 });
+
+      // Western Classroom Wing
+      const westWing = new THREE.Mesh(
+        new THREE.BoxGeometry(16, 14, 38),
+        new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.6 })
+      );
+      westWing.position.set(-36, 7, 10); westWing.castShadow = true; westWing.receiveShadow = true; mapRoot.add(westWing);
+      platformBoxes.push({ box: new THREE.Box3().setFromObject(westWing), height: 14 });
+
+      // Eastern Gymnasium Wing
+      const gymWing = new THREE.Mesh(
+        new THREE.BoxGeometry(20, 15, 32),
+        new THREE.MeshStandardMaterial({ color: 0xcfd8dc, roughness: 0.5 })
+      );
+      gymWing.position.set(38, 7.5, 45); gymWing.castShadow = true; gymWing.receiveShadow = true; mapRoot.add(gymWing);
+      platformBoxes.push({ box: new THREE.Box3().setFromObject(gymWing), height: 15 });
+
+      // Courtyard Elevated Podium / Stairs
+      const podium = new THREE.Mesh(
+        new THREE.BoxGeometry(14, 2.2, 12),
+        new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.5 })
+      );
+      podium.position.set(0, 1.1, 15); podium.castShadow = true; podium.receiveShadow = true; mapRoot.add(podium);
+      platformBoxes.push({ box: new THREE.Box3().setFromObject(podium), height: 2.2 });
+
+      // Perimeter School Gates & Brick Fence
+      const fenceCoords = [
+        { x: 0, z: -55, w: 120, h: 4, d: 1.5 },
+        { x: -60, z: 0, w: 1.5, h: 4, d: 110 },
+        { x: 60, z: 0, w: 1.5, h: 4, d: 110 }
+      ];
+      fenceCoords.forEach(f => {
+        const wall = new THREE.Mesh(new THREE.BoxGeometry(f.w, f.h, f.d), new THREE.MeshStandardMaterial({ color: 0x78716c }));
+        wall.position.set(f.x, f.h / 2, f.z); mapRoot.add(wall);
+        platformBoxes.push({ box: new THREE.Box3().setFromObject(wall), height: f.h });
+      });
+
+      // Trees along campus walkway (6 trees)
+      for (let i = -2; i <= 2; i++) {
+        if (i === 0) continue;
+        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.7, 5, 8), new THREE.MeshStandardMaterial({ color: 0x543d2b }));
+        trunk.position.set(-16, 2.5, i * 15); trunk.castShadow = true; mapRoot.add(trunk);
+        const leaves = new THREE.Mesh(new THREE.SphereGeometry(2.6, 8, 8), new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.8 }));
+        leaves.position.set(-16, 6, i * 15); leaves.castShadow = true; mapRoot.add(leaves);
+      }
+
+      // Check if actual CollegeRaimon.glb can be streamed
+      const gltfLoader = new THREE.GLTFLoader();
+      gltfLoader.load('/assets/maps/school/CollegeRaimon.glb', (gltf) => {
+        console.log('>>> College Raimon School 3D GLB loaded successfully!');
+        gltf.scene.scale.set(0.08, 0.08, 0.08);
+        gltf.scene.position.set(0, 0, 10);
+        mapRoot.add(gltf.scene);
+        addCombatLog('College Raimon full academy campus model streamed.', 'log-system');
+      }, (xhr) => {
+        if (xhr.lengthComputable) {
+          const pct = Math.round((xhr.loaded / xhr.total) * 100);
+          if (pct % 25 === 0) console.log(`School Campus streaming: ${pct}%`);
+        }
+      }, (err) => {
+        console.log('Using optimized procedural School campus environment.');
+      });
+
+      STATE.player.pos.set(0, 0, -18);
+      STATE.targetDummy.pos.set(0, 0, 18);
+    }
+
+    // MAP 3: FANTASTIC VILLAGE (MEDIEVAL SETTLEMENT)
+    function buildVillageMap() {
+      scene.background = new THREE.Color(0xfde68a); // Warm Sunset / Golden Hour
+      scene.fog = new THREE.FogExp2(0xfef3c7, 0.008);
+      ambientLight.color.setHex(0xffedd5);
+      sunLight.color.setHex(0xfb923c);
+      sunLight.position.set(40, 60, 50);
+
+      // Village Ground (Textured Grass / Terrain)
+      const textureLoader = new THREE.TextureLoader();
+      const grassTex = textureLoader.load('/assets/maps/village/textures/T_ENV_TERRAIN_grass_01_BC.png');
+      grassTex.wrapS = THREE.RepeatWrapping; grassTex.wrapT = THREE.RepeatWrapping; grassTex.repeat.set(16, 16);
+
+      const pavingTex = textureLoader.load('/assets/maps/village/textures/T_ENV_pavingstone_01_BC.png');
+      pavingTex.wrapS = THREE.RepeatWrapping; pavingTex.wrapT = THREE.RepeatWrapping; pavingTex.repeat.set(4, 12);
+
+      const villageGround = new THREE.Mesh(
+        new THREE.PlaneGeometry(150, 150),
+        new THREE.MeshStandardMaterial({ map: grassTex, roughness: 0.9 })
+      );
+      villageGround.rotation.x = -Math.PI / 2; villageGround.receiveShadow = true; mapRoot.add(villageGround);
+
+      // Cobblestone Village Roads / Square
+      const road = new THREE.Mesh(
+        new THREE.PlaneGeometry(16, 120),
+        new THREE.MeshStandardMaterial({ map: pavingTex, roughness: 0.8 })
+      );
+      road.rotation.x = -Math.PI / 2; road.position.y = 0.02; road.receiveShadow = true; mapRoot.add(road);
+
+      const crossRoad = new THREE.Mesh(
+        new THREE.PlaneGeometry(90, 16),
+        new THREE.MeshStandardMaterial({ map: pavingTex, roughness: 0.8 })
+      );
+      crossRoad.rotation.x = -Math.PI / 2; crossRoad.position.y = 0.03; crossRoad.receiveShadow = true; mapRoot.add(crossRoad);
+
+      // Medieval Cottages & Houses (Cottage 1, 2, 3, 4, 5)
+      const cottageLocations = [
+        { x: -24, z: 18, rot: 0 },
+        { x: -24, z: -20, rot: 0.2 },
+        { x: 26, z: 20, rot: -0.1 },
+        { x: 26, z: -18, rot: 0.3 },
+        { x: 0, z: 42, rot: Math.PI }
+      ];
+
+      cottageLocations.forEach((c, idx) => {
+        const houseGroup = new THREE.Group();
+        houseGroup.position.set(c.x, 0, c.z);
+        houseGroup.rotation.y = c.rot;
+
+        // Timbered House Body
+        const b = new THREE.Mesh(
+          new THREE.BoxGeometry(14, 8, 12),
+          new THREE.MeshStandardMaterial({ color: 0xfafaf9, roughness: 0.7 })
+        );
+        b.position.y = 4; b.castShadow = true; b.receiveShadow = true; houseGroup.add(b);
+
+        // Pitched Roof
+        const roof = new THREE.Mesh(
+          new THREE.ConeGeometry(11, 6, 4),
+          new THREE.MeshStandardMaterial({ color: 0x991b1b, roughness: 0.5 })
+        );
+        roof.position.y = 10.5; roof.rotation.y = Math.PI / 4; roof.castShadow = true; houseGroup.add(roof);
+
+        // Chimney
+        const chim = new THREE.Mesh(
+          new THREE.BoxGeometry(1.6, 6, 1.6),
+          new THREE.MeshStandardMaterial({ color: 0x57534e })
+        );
+        chim.position.set(3, 11, 2); chim.castShadow = true; houseGroup.add(chim);
+
+        mapRoot.add(houseGroup);
+
+        platformBoxes.push({
+          box: new THREE.Box3().setFromCenterAndSize(
+            new THREE.Vector3(c.x, 4, c.z),
+            new THREE.Vector3(15, 8, 13)
+          ),
+          height: 8
+        });
+      });
+
+      // Medieval Windmill with Rotating Blades
+      const windmill = new THREE.Mesh(
+        new THREE.CylinderGeometry(4, 6, 18, 12),
+        new THREE.MeshStandardMaterial({ color: 0xd6d3d1, roughness: 0.8 })
+      );
+      windmill.position.set(-38, 9, -38); windmill.castShadow = true; mapRoot.add(windmill);
+      platformBoxes.push({ box: new THREE.Box3().setFromObject(windmill), height: 18 });
+
+      // Wooden fences & barrels for combat cover
+      const covers = [
+        { x: -10, z: 5, w: 8, h: 2.2, d: 1 },
+        { x: 10, z: -5, w: 8, h: 2.2, d: 1 },
+        { x: -6, z: -12, w: 4, h: 2.5, d: 4 },
+        { x: 8, z: 12, w: 4, h: 2.5, d: 4 }
+      ];
+      covers.forEach(cv => {
+        const m = new THREE.Mesh(new THREE.BoxGeometry(cv.w, cv.h, cv.d), new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.8 }));
+        m.position.set(cv.x, cv.h / 2, cv.z); m.castShadow = true; m.receiveShadow = true; mapRoot.add(m);
+        platformBoxes.push({ box: new THREE.Box3().setFromObject(m), height: cv.h });
+      });
+
+      STATE.player.pos.set(0, 0, -20);
+      STATE.targetDummy.pos.set(0, 0, 18);
+    }
 
     // ==========================================
-    // 7. CHARACTERS (GOLEM, ROGUE, MECH)
+    // 6. CHARACTERS (GOLEM, ROGUE, MECH)
     // ==========================================
     const playerRoot = new THREE.Group();
     playerRoot.position.copy(STATE.player.pos);
     scene.add(playerRoot);
 
-    // Sub-groups for characters
     const golemGroup = new THREE.Group();
     const rogueGroup = new THREE.Group();
     const mechGroup = new THREE.Group();
@@ -961,12 +1123,11 @@
     playerRoot.add(rogueGroup);
     playerRoot.add(mechGroup);
 
-    // Default visibility
     golemGroup.visible = true;
     rogueGroup.visible = false;
     mechGroup.visible = false;
 
-    // A. Procedural Animated Mech (Always ready fallback)
+    // A. Procedural Animated Mech (Modular fallback)
     const mechArmorMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.85, roughness: 0.2 });
     const mechCoreMat = new THREE.MeshBasicMaterial({ color: 0xf97316 });
     const mechTorso = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.4, 0.8), mechArmorMat);
@@ -993,66 +1154,46 @@
     const mechRightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.38, 1.2, 0.38), mechArmorMat);
     mechRightLeg.position.set(0.35, 0.6, 0); mechRightLeg.castShadow = true; mechGroup.add(mechRightLeg);
 
-    // B. Loading Actual Stone Golem FBX + PBR Textures
+    // B. Actual Armored Stone Golem FBX
     const fbxLoader = new THREE.FBXLoader();
-    const textureLoader = new THREE.TextureLoader();
+    const texLoader = new THREE.TextureLoader();
 
-    // Preload textures
-    const golemBodyTex = textureLoader.load('/assets/models/stone_golem/textures/T_StoneGolem_Body_Albedo_Skin1.png');
-    const golemArmorTex = textureLoader.load('/assets/models/stone_golem/textures/T_StoneGolem_Armor_Albedo_Skin1.png');
-    const golemNormalTex = textureLoader.load('/assets/models/stone_golem/textures/T_StoneGolem_Body_Normal.png');
+    const golemBodyTex = texLoader.load('/assets/models/stone_golem/textures/T_StoneGolem_Body_Albedo_Skin1.png');
+    const golemNormalTex = texLoader.load('/assets/models/stone_golem/textures/T_StoneGolem_Body_Normal.png');
 
     fbxLoader.load('/assets/models/stone_golem/Mesh/SKM_StoneGolem.fbx', (golem) => {
-      console.log('>>> Actual Armored Stone Golem FBX Loaded!');
-      golem.scale.set(0.015, 0.015, 0.015); // Adjust from Unreal/Maya units (cm) to meters
+      console.log('>>> Armored Stone Golem FBX Mounted!');
+      golem.scale.set(0.015, 0.015, 0.015);
       golem.position.set(0, 0, 0);
 
-      golem.traverse((child) => {
-        if (child.isMesh || child.isSkinnedMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-          // Apply extracted PBR textures
-          child.material = new THREE.MeshStandardMaterial({
-            map: golemBodyTex,
-            normalMap: golemNormalTex,
-            roughness: 0.6,
-            metalness: 0.5
+      golem.traverse((c) => {
+        if (c.isMesh || c.isSkinnedMesh) {
+          c.castShadow = true; c.receiveShadow = true;
+          c.material = new THREE.MeshStandardMaterial({
+            map: golemBodyTex, normalMap: golemNormalTex,
+            roughness: 0.6, metalness: 0.5
           });
         }
       });
-
       golemGroup.add(golem);
-      addCombatLog('Stone Golem 3D model & PBR textures mounted.', 'log-system');
-    }, undefined, (err) => {
-      console.warn('Golem FBX load notice:', err);
-    });
+    }, undefined, (e) => console.log('Golem notice:', e));
 
-    // C. Loading Actual Rogue FBX
+    // C. Actual Shadow Rogue FBX
     fbxLoader.load('/assets/models/rogue/rogue_all.fbx', (rogue) => {
-      console.log('>>> Actual Rogue FBX Loaded!');
+      console.log('>>> Shadow Rogue FBX Mounted!');
       rogue.scale.set(0.018, 0.018, 0.018);
       rogue.position.set(0, 0, 0);
-
-      rogue.traverse((child) => {
-        if (child.isMesh || child.isSkinnedMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-          child.material = new THREE.MeshStandardMaterial({
-            color: 0x27272a,
-            roughness: 0.45,
-            metalness: 0.6
-          });
+      rogue.traverse((c) => {
+        if (c.isMesh || c.isSkinnedMesh) {
+          c.castShadow = true; c.receiveShadow = true;
+          c.material = new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.45, metalness: 0.6 });
         }
       });
-
       rogueGroup.add(rogue);
-      addCombatLog('Shadow Rogue 3D model mounted.', 'log-system');
-    }, undefined, (err) => {
-      console.warn('Rogue FBX load notice:', err);
-    });
+    }, undefined, (e) => console.log('Rogue notice:', e));
 
     // ==========================================
-    // 8. COMBAT AUTOMATON (DUMMY ENEMY)
+    // 7. TARGET AUTOMATON (DUMMY ENEMY)
     // ==========================================
     const dummyGroup = new THREE.Group();
     dummyGroup.position.copy(STATE.targetDummy.pos);
@@ -1076,211 +1217,122 @@
     scene.add(dummyGroup);
 
     // ==========================================
-    // 9. ADVANCED SPELL PROJECTILES & PARTICLES
+    // 8. ADVANCED SPELL PROJECTILES & PARTICLES
     // ==========================================
     const projectiles = [];
     const particles = [];
-    const scorchMarks = [];
+    let screenShake = 0;
+    function triggerScreenShake(amt) { screenShake = Math.max(screenShake, amt); }
 
-    // Realistic Fireball Particle Emitter
     function spawnFireballProjectile(origin, dir) {
-      const group = new THREE.Group();
-      group.position.copy(origin);
-
-      // Core: bright intense sphere
-      const core = new THREE.Mesh(
-        new THREE.SphereGeometry(0.5, 16, 16),
-        new THREE.MeshBasicMaterial({ color: 0xfffbeb }) // White hot center
-      );
-      group.add(core);
-
-      // Outer plasma shell
-      const shell = new THREE.Mesh(
-        new THREE.SphereGeometry(0.85, 16, 16),
-        new THREE.MeshBasicMaterial({ color: 0xf97316, transparent: true, opacity: 0.75 })
-      );
-      group.add(shell);
-
-      scene.add(group);
+      const g = new THREE.Group();
+      g.position.copy(origin);
+      g.add(new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 16), new THREE.MeshBasicMaterial({ color: 0xfffbeb })));
+      g.add(new THREE.Mesh(new THREE.SphereGeometry(0.85, 16, 16), new THREE.MeshBasicMaterial({ color: 0xf97316, transparent: true, opacity: 0.75 })));
+      scene.add(g);
 
       projectiles.push({
-        group,
-        dir: dir.clone().normalize(),
-        speed: 55,
-        type: 'fireball',
-        lifetime: 3.2,
-        damage: 45,
-        radius: 0.85,
+        group: g, dir: dir.clone().normalize(), speed: 55, type: 'fireball',
+        lifetime: 3.2, damage: 45, radius: 0.85,
         onHit: (hitPos) => {
           audio.playExplosion();
           triggerScreenShake(0.4);
           spawnFireExplosion(hitPos);
         }
       });
-
       audio.playFireballCast();
     }
 
-    // Realistic Fireball Explosion with Expanding Shockwave & Embers
     function spawnFireExplosion(pos) {
-      // 1. Flash point light
       spellDynamicLight.position.copy(pos);
       spellDynamicLight.color.setHex(0xff5500);
       spellDynamicLight.intensity = 8.0;
 
-      // 2. Expanding shockwave ring
       const ring = new THREE.Mesh(
         new THREE.RingGeometry(0.5, 1.2, 32),
         new THREE.MeshBasicMaterial({ color: 0xf97316, side: THREE.DoubleSide, transparent: true, opacity: 0.9 })
       );
-      ring.position.copy(pos);
-      ring.rotation.x = -Math.PI / 2;
-      scene.add(ring);
+      ring.position.copy(pos); ring.rotation.x = -Math.PI / 2; scene.add(ring);
       particles.push({ mesh: ring, isRing: true, scaleSpeed: 18, life: 0.45, maxLife: 0.45 });
 
-      // 3. Fire particles (50 blazing sparks)
       for (let i = 0; i < 50; i++) {
-        const pMat = new THREE.MeshBasicMaterial({
-          color: Math.random() > 0.4 ? 0xf97316 : (Math.random() > 0.5 ? 0xef4444 : 0xfde047)
-        });
+        const pMat = new THREE.MeshBasicMaterial({ color: Math.random() > 0.4 ? 0xf97316 : 0xef4444 });
         const p = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.25, 0.25), pMat);
         p.position.copy(pos);
-        const vel = new THREE.Vector3(
-          (Math.random() - 0.5) * 22,
-          Math.random() * 16 + 2,
-          (Math.random() - 0.5) * 22
-        );
+        const vel = new THREE.Vector3((Math.random() - 0.5) * 22, Math.random() * 16 + 2, (Math.random() - 0.5) * 22);
         scene.add(p);
         particles.push({ mesh: p, velocity: vel, life: 0.9, maxLife: 0.9, gravity: 24 });
       }
-
-      // 4. Lingering smoke
-      for (let i = 0; i < 15; i++) {
-        const s = new THREE.Mesh(
-          new THREE.SphereGeometry(0.4 + Math.random() * 0.4, 8, 8),
-          new THREE.MeshBasicMaterial({ color: 0x334155, transparent: true, opacity: 0.6 })
-        );
-        s.position.copy(pos).add(new THREE.Vector3((Math.random()-0.5)*2, Math.random()*1.5, (Math.random()-0.5)*2));
-        scene.add(s);
-        particles.push({ mesh: s, velocity: new THREE.Vector3(0, 4 + Math.random()*3, 0), life: 1.2, maxLife: 1.2, gravity: -1 });
-      }
     }
 
-    // Flame Burst (Radial 360 AoE)
     function castFlameBurst() {
       audio.playExplosion();
       triggerScreenShake(0.35);
       const pos = playerRoot.position.clone().add(new THREE.Vector3(0, 1.2, 0));
 
-      // Expanding fire wall
       const burstRing = new THREE.Mesh(
         new THREE.RingGeometry(1, 2, 32),
         new THREE.MeshBasicMaterial({ color: 0xff3b00, side: THREE.DoubleSide, transparent: true, opacity: 0.95 })
       );
-      burstRing.position.copy(pos);
-      burstRing.rotation.x = -Math.PI / 2;
-      scene.add(burstRing);
+      burstRing.position.copy(pos); burstRing.rotation.x = -Math.PI / 2; scene.add(burstRing);
       particles.push({ mesh: burstRing, isRing: true, scaleSpeed: 24, life: 0.4, maxLife: 0.4 });
 
-      // Check distance to dummy
       const dist = pos.distanceTo(STATE.targetDummy.pos);
-      if (dist < 11 && !STATE.targetDummy.isDead) {
-        damageTargetDummy(50, 'fire');
-      }
-
+      if (dist < 11 && !STATE.targetDummy.isDead) damageTargetDummy(50, 'fire');
       addCombatLog('Cast [FLAME BURST] radial incinerator!', 'log-fire');
     }
 
-    // Inferno Wave (Ground traveling shockwave)
     function spawnInfernoWave(origin, dir) {
       audio.playFireballCast();
       const waveMesh = new THREE.Mesh(
         new THREE.BoxGeometry(6, 1.8, 0.8),
         new THREE.MeshBasicMaterial({ color: 0xf97316, transparent: true, opacity: 0.85 })
       );
-      waveMesh.position.copy(origin);
-      waveMesh.rotation.y = Math.atan2(dir.x, dir.z);
-      scene.add(waveMesh);
+      waveMesh.position.copy(origin); waveMesh.rotation.y = Math.atan2(dir.x, dir.z); scene.add(waveMesh);
 
       projectiles.push({
-        group: waveMesh,
-        dir: dir.clone().setY(0).normalize(),
-        speed: 28,
-        type: 'inferno-wave',
-        lifetime: 1.8,
-        damage: 38,
-        radius: 3.2,
-        onHit: (hitPos) => {
-          audio.playExplosion();
-          spawnFireExplosion(hitPos);
-        }
+        group: waveMesh, dir: dir.clone().setY(0).normalize(), speed: 28, type: 'inferno-wave',
+        lifetime: 1.8, damage: 38, radius: 3.2,
+        onHit: (hitPos) => { audio.playExplosion(); spawnFireExplosion(hitPos); }
       });
       addCombatLog('Cast [INFERNO WAVE] along terrain!', 'log-fire');
     }
 
-    // Thunder Surge (Branching electric arc)
     function spawnThunderSurge(origin, dir) {
       audio.playThunder();
       triggerScreenShake(0.25);
-
-      const bolt = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.2, 0.35, 4, 8),
-        new THREE.MeshBasicMaterial({ color: 0x38bdf8 })
-      );
-      bolt.position.copy(origin);
-      bolt.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
-      scene.add(bolt);
+      const bolt = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.35, 4, 8), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+      bolt.position.copy(origin); bolt.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir); scene.add(bolt);
 
       projectiles.push({
-        group: bolt,
-        dir: dir.clone().normalize(),
-        speed: 130,
-        type: 'thunder',
-        lifetime: 1.0,
-        damage: 65,
-        radius: 0.5,
+        group: bolt, dir: dir.clone().normalize(), speed: 130, type: 'thunder',
+        lifetime: 1.0, damage: 65, radius: 0.5,
         onHit: (hitPos) => {
           audio.playThunder();
-          // Electric flash
-          spellDynamicLight.position.copy(hitPos);
-          spellDynamicLight.color.setHex(0x00f0ff);
-          spellDynamicLight.intensity = 10.0;
+          spellDynamicLight.position.copy(hitPos); spellDynamicLight.color.setHex(0x00f0ff); spellDynamicLight.intensity = 10.0;
           for (let i = 0; i < 30; i++) {
             const p = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.15, 0.15), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
-            p.position.copy(hitPos);
-            scene.add(p);
-            particles.push({ mesh: p, velocity: new THREE.Vector3((Math.random()-0.5)*26, (Math.random()-0.5)*26, (Math.random()-0.5)*26), life: 0.5, maxLife: 0.5, gravity: 0 });
+            p.position.copy(hitPos); scene.add(p);
+            particles.push({ mesh: p, velocity: new THREE.Vector3((Math.random()-0.5)*26, (Math.random()-0.5)*26, (Math.random()-0.5)*26), life: 0.5, maxLife: 0.5 });
           }
         }
       });
       addCombatLog('Cast [THUNDER SURGE] high-voltage arc!', 'log-lightning');
     }
 
-    // Ice Shard (Crystalline Frost Lance)
     function spawnIceShard(origin, dir) {
       audio.playIceShard();
-      const shard = new THREE.Mesh(
-        new THREE.ConeGeometry(0.3, 2.2, 6),
-        new THREE.MeshStandardMaterial({ color: 0xe0f2fe, roughness: 0.1, metalness: 0.9 })
-      );
-      shard.position.copy(origin);
-      shard.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
-      scene.add(shard);
+      const shard = new THREE.Mesh(new THREE.ConeGeometry(0.3, 2.2, 6), new THREE.MeshStandardMaterial({ color: 0xe0f2fe, roughness: 0.1, metalness: 0.9 }));
+      shard.position.copy(origin); shard.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir); scene.add(shard);
 
       projectiles.push({
-        group: shard,
-        dir: dir.clone().normalize(),
-        speed: 75,
-        type: 'ice',
-        lifetime: 2.0,
-        damage: 40,
-        radius: 0.45,
+        group: shard, dir: dir.clone().normalize(), speed: 75, type: 'ice',
+        lifetime: 2.0, damage: 40, radius: 0.45,
         onHit: (hitPos) => {
           audio.playIceShard();
           for (let i = 0; i < 25; i++) {
             const p = new THREE.Mesh(new THREE.OctahedronGeometry(0.2), new THREE.MeshBasicMaterial({ color: 0xbae6fd }));
-            p.position.copy(hitPos);
-            scene.add(p);
+            p.position.copy(hitPos); scene.add(p);
             particles.push({ mesh: p, velocity: new THREE.Vector3((Math.random()-0.5)*18, Math.random()*12, (Math.random()-0.5)*18), life: 0.7, maxLife: 0.7, gravity: 20 });
           }
         }
@@ -1288,31 +1340,20 @@
       addCombatLog('Cast [ICE SHARD] glacial lance!', 'log-ice');
     }
 
-    // Arcane Bolt (Concentrated Mana Implosion)
     function spawnArcaneBolt(origin, dir) {
       audio.playArcane();
-      const arcaneSphere = new THREE.Mesh(
-        new THREE.DodecahedronGeometry(0.65),
-        new THREE.MeshBasicMaterial({ color: 0xa855f7 })
-      );
-      arcaneSphere.position.copy(origin);
-      scene.add(arcaneSphere);
+      const arcaneSphere = new THREE.Mesh(new THREE.DodecahedronGeometry(0.65), new THREE.MeshBasicMaterial({ color: 0xa855f7 }));
+      arcaneSphere.position.copy(origin); scene.add(arcaneSphere);
 
       projectiles.push({
-        group: arcaneSphere,
-        dir: dir.clone().normalize(),
-        speed: 65,
-        type: 'arcane',
-        lifetime: 2.4,
-        damage: 55,
-        radius: 0.65,
+        group: arcaneSphere, dir: dir.clone().normalize(), speed: 65, type: 'arcane',
+        lifetime: 2.4, damage: 55, radius: 0.65,
         onHit: (hitPos) => {
           audio.playArcane();
           for (let i = 0; i < 35; i++) {
             const p = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.2, 0.2), new THREE.MeshBasicMaterial({ color: 0xc084fc }));
-            p.position.copy(hitPos);
-            scene.add(p);
-            particles.push({ mesh: p, velocity: new THREE.Vector3((Math.random()-0.5)*20, (Math.random()-0.5)*20, (Math.random()-0.5)*20), life: 0.65, maxLife: 0.65, gravity: 0 });
+            p.position.copy(hitPos); scene.add(p);
+            particles.push({ mesh: p, velocity: new THREE.Vector3((Math.random()-0.5)*20, (Math.random()-0.5)*20, (Math.random()-0.5)*20), life: 0.65, maxLife: 0.65 });
           }
         }
       });
@@ -1320,13 +1361,10 @@
     }
 
     // ==========================================
-    // 10. INPUT & AIMING CONTROLS (CoD MOBILE)
+    // 9. INPUT, CONTROLS & AIMING
     // ==========================================
     const keys = {};
     let isPointerLocked = false;
-    let screenShake = 0;
-
-    function triggerScreenShake(amt) { screenShake = Math.max(screenShake, amt); }
 
     window.addEventListener('keydown', (e) => {
       audio.init();
@@ -1336,6 +1374,7 @@
       if (e.code === 'KeyE') triggerSlotSpell(2);
       if (e.code === 'KeyR') triggerSlotSpell(3);
       if (e.code === 'KeyF') triggerSlotSpell(4);
+      if (e.code === 'KeyM') { e.preventDefault(); toggleMapModal(); }
       if (e.code === 'KeyK') { e.preventDefault(); toggleSpellbookModal(); }
       if (e.code === 'Tab') { e.preventDefault(); toggleLoadoutModal(); }
     });
@@ -1347,8 +1386,8 @@
       if (!isPointerLocked) {
         container.requestPointerLock();
       } else {
-        if (e.button === 0) triggerSlotSpell(0); // Left Click: Primary
-        if (e.button === 2) { // Right Click: ADS
+        if (e.button === 0) triggerSlotSpell(0);
+        if (e.button === 2) {
           STATE.player.isADS = true;
           document.getElementById('reticle-container').classList.add('reticle-ads');
         }
@@ -1362,7 +1401,7 @@
       }
     });
 
-    window.addEventListener('contextmenu', (e) => e.preventDefault()); // Prevent browser right-click menu
+    window.addEventListener('contextmenu', (e) => e.preventDefault());
 
     document.addEventListener('pointerlockchange', () => {
       isPointerLocked = (document.pointerLockElement === container);
@@ -1377,9 +1416,6 @@
       STATE.player.pitch = Math.max(-0.45, Math.min(1.25, STATE.player.pitch));
     });
 
-    // ==========================================
-    // 11. CASTING HAND SOCKET & AIM RAY
-    // ==========================================
     function getAimDirection() {
       const dir = new THREE.Vector3(0, 0, -1);
       dir.applyAxisAngle(new THREE.Vector3(1, 0, 0), -STATE.player.pitch);
@@ -1388,7 +1424,6 @@
     }
 
     function getCastingOrigin() {
-      // Hands socket position relative to current active character
       const forward = getAimDirection();
       const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), forward).normalize();
       return playerRoot.position.clone()
@@ -1402,7 +1437,6 @@
         addCombatLog(`Spell on cooldown! (${STATE.cooldowns[slotIndex].toFixed(1)}s)`, 'log-system');
         return;
       }
-
       const spellId = STATE.equippedSlots[slotIndex];
       const spellDef = SPELL_CATALOG.find(s => s.id === spellId);
       if (!spellDef) return;
@@ -1412,12 +1446,10 @@
         return;
       }
 
-      // Deduct mana & start cooldown
       STATE.player.mana -= spellDef.cost;
       STATE.cooldowns[slotIndex] = spellDef.cooldown;
-      STATE.player.castingAnimTimer = 0.35; // Trigger upper-body cast pose
+      STATE.player.castingAnimTimer = 0.35;
 
-      // Reticle bloom
       document.getElementById('reticle-container').classList.add('reticle-spread');
       setTimeout(() => document.getElementById('reticle-container').classList.remove('reticle-spread'), 180);
 
@@ -1433,32 +1465,25 @@
     }
 
     // ==========================================
-    // 12. DAMAGE, HIT FEEDBACK & FLOATING NUMBERS
+    // 10. DAMAGE, HIT FEEDBACK & COMBAT LOG
     // ==========================================
     function damageTargetDummy(amount, elemType) {
       if (STATE.targetDummy.isDead) return;
-
       const isCrit = Math.random() < 0.25;
       const finalDmg = isCrit ? Math.round(amount * 1.5) : amount;
       STATE.targetDummy.hp = Math.max(0, STATE.targetDummy.hp - finalDmg);
 
-      // Hit marker & tick sound
       audio.playHitTick();
       triggerHitMarker();
-
-      // Spawn floating 3D world damage text
       spawnDamageNumber(finalDmg, STATE.targetDummy.pos.clone().add(new THREE.Vector3(0, 3.2, 0)), elemType, isCrit);
 
-      // Flash dummy white
       dummyTorso.material.color.setHex(0xffffff);
       setTimeout(() => dummyTorso.material.color.setHex(0x991b1b), 110);
 
       updateTargetHUD();
       addCombatLog(`Hit Automaton [${elemType.toUpperCase()}] for ${finalDmg} DMG!`, 'log-damage');
 
-      if (STATE.targetDummy.hp <= 0) {
-        eliminateDummy();
-      }
+      if (STATE.targetDummy.hp <= 0) eliminateDummy();
     }
 
     function eliminateDummy() {
@@ -1505,19 +1530,63 @@
     }
 
     // ==========================================
-    // 13. UI & SPELLBOOK RENDERING
+    // 11. UI MODALS & MENUS
     // ==========================================
+    const mapModal = document.getElementById('map-modal');
+    const spellbookModal = document.getElementById('spellbook-modal');
+    const loadoutModal = document.getElementById('loadout-modal');
+
+    document.getElementById('btn-open-maps').addEventListener('click', toggleMapModal);
+    document.getElementById('btn-close-maps').addEventListener('click', toggleMapModal);
+    document.getElementById('btn-open-spellbook').addEventListener('click', toggleSpellbookModal);
+    document.getElementById('btn-close-spellbook').addEventListener('click', toggleSpellbookModal);
+    document.getElementById('btn-open-loadout').addEventListener('click', toggleLoadoutModal);
+    document.getElementById('btn-close-loadout').addEventListener('click', toggleLoadoutModal);
+    document.getElementById('btn-apply-loadout').addEventListener('click', toggleLoadoutModal);
+
+    function toggleMapModal() {
+      const isOpen = (mapModal.style.display === 'flex');
+      mapModal.style.display = isOpen ? 'none' : 'flex';
+      if (!isOpen && document.pointerLockElement) document.exitPointerLock();
+    }
+
+    function toggleSpellbookModal() {
+      const isOpen = (spellbookModal.style.display === 'flex');
+      spellbookModal.style.display = isOpen ? 'none' : 'flex';
+      if (!isOpen) { renderSpellbook(); if (document.pointerLockElement) document.exitPointerLock(); }
+    }
+
+    function toggleLoadoutModal() {
+      const isOpen = (loadoutModal.style.display === 'flex');
+      loadoutModal.style.display = isOpen ? 'none' : 'flex';
+      if (!isOpen && document.pointerLockElement) document.exitPointerLock();
+    }
+
+    // Map selection handlers
+    document.querySelectorAll('.map-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const mapId = card.getAttribute('data-map');
+        selectMap(mapId);
+      });
+    });
+
+    function selectMap(mapId) {
+      document.querySelectorAll('.map-card').forEach(c => c.classList.remove('active-map'));
+      const activeCard = document.querySelector(`.map-card[data-map="${mapId}"]`);
+      if (activeCard) activeCard.classList.add('active-map');
+      loadMapEnvironment(mapId);
+      toggleMapModal();
+    }
+
     function renderSpellbook(tab = 'all') {
       const grid = document.getElementById('spellbook-grid');
       grid.innerHTML = '';
-
       const filtered = SPELL_CATALOG.filter(s => tab === 'all' || s.element === tab);
 
       filtered.forEach(spell => {
         const isEquipped = STATE.equippedSlots.includes(spell.id);
         const card = document.createElement('div');
         card.className = `spell-card ${!spell.playable ? 'locked' : ''}`;
-
         card.innerHTML = `
           <div>
             <div class="spell-card-header">
@@ -1539,13 +1608,11 @@
             </button>
           </div>
         `;
-
         if (spell.playable) {
           card.querySelector('.spell-card-btn').addEventListener('click', () => {
             equipSpellToNextSlot(spell.id);
           });
         }
-
         grid.appendChild(card);
       });
     }
@@ -1558,13 +1625,12 @@
     }
 
     function equipSpellToNextSlot(spellId) {
-      // Find slot or replace slot 1
       const curIndex = STATE.equippedSlots.indexOf(spellId);
       if (curIndex !== -1) {
         addCombatLog('Spell already equipped in hotbar.', 'log-system');
         return;
       }
-      STATE.equippedSlots[1] = spellId; // Assign to slot [Q]
+      STATE.equippedSlots[1] = spellId;
       updateHotbarUI();
       renderSpellbook();
       const spell = SPELL_CATALOG.find(s => s.id === spellId);
@@ -1630,36 +1696,6 @@
       while (log.children.length > 5) log.removeChild(log.firstChild);
     }
 
-    // Modal toggles
-    const spellbookModal = document.getElementById('spellbook-modal');
-    const loadoutModal = document.getElementById('loadout-modal');
-
-    document.getElementById('btn-open-spellbook').addEventListener('click', toggleSpellbookModal);
-    document.getElementById('btn-close-spellbook').addEventListener('click', toggleSpellbookModal);
-    document.getElementById('btn-open-loadout').addEventListener('click', toggleLoadoutModal);
-    document.getElementById('btn-close-loadout').addEventListener('click', toggleLoadoutModal);
-    document.getElementById('btn-apply-loadout').addEventListener('click', toggleLoadoutModal);
-
-    function toggleSpellbookModal() {
-      const isOpen = (spellbookModal.style.display === 'flex');
-      spellbookModal.style.display = isOpen ? 'none' : 'flex';
-      if (!isOpen) { renderSpellbook(); if (document.pointerLockElement) document.exitPointerLock(); }
-    }
-
-    function toggleLoadoutModal() {
-      const isOpen = (loadoutModal.style.display === 'flex');
-      loadoutModal.style.display = isOpen ? 'none' : 'flex';
-      if (!isOpen && document.pointerLockElement) document.exitPointerLock();
-    }
-
-    document.querySelectorAll('.spell-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.spell-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        renderSpellbook(tab.getAttribute('data-tab'));
-      });
-    });
-
     // Character Switcher
     document.querySelectorAll('.char-card').forEach(card => {
       card.addEventListener('click', () => {
@@ -1681,15 +1717,15 @@
 
       if (type === 'golem') {
         nameElem.innerText = 'ARMORED STONE GOLEM';
-        rigElem.innerText = '3D FBX RIG';
+        rigElem.innerText = 'FBX PBR RIG';
         addCombatLog('Switched playable avatar to [Armored Stone Golem]', 'log-system');
       } else if (type === 'rogue') {
         nameElem.innerText = 'SHADOW ROGUE';
-        rigElem.innerText = '3D FBX RIG';
+        rigElem.innerText = 'FBX RIG';
         addCombatLog('Switched playable avatar to [Shadow Rogue]', 'log-system');
       } else {
         nameElem.innerText = 'ELEMENTAL MECH';
-        rigElem.innerText = 'TACTICAL CHASSIS';
+        rigElem.innerText = 'CHASSIS';
         addCombatLog('Switched playable avatar to [Elemental Mech]', 'log-system');
       }
     }
@@ -1701,26 +1737,21 @@
         btn.classList.add('active-btn');
         const elem = btn.getAttribute('data-element');
         STATE.player.primaryElement = elem;
-        document.getElementById('hud-element-badge').innerText = elem.toUpperCase();
         mechCoreMat.color.setHex(elem === 'fire' ? 0xf97316 : (elem === 'lightning' ? 0x00d4ff : (elem === 'ice' ? 0x93c5fd : 0xa855f7)));
         addCombatLog(`Elemental resonance attuned to [${elem.toUpperCase()}]`, 'log-system');
       });
     });
 
-    // Sensitivity & FOV sliders
-    document.getElementById('slider-sens').addEventListener('input', (e) => {
-      STATE.settings.sens = parseFloat(e.target.value) * 0.001;
-      document.getElementById('val-sens').innerText = e.target.value;
-    });
-    document.getElementById('slider-fov').addEventListener('input', (e) => {
-      STATE.settings.fov = parseInt(e.target.value);
-      document.getElementById('val-fov').innerText = e.target.value;
-      camera.fov = STATE.settings.fov;
-      camera.updateProjectionMatrix();
+    document.querySelectorAll('.spell-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.spell-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderSpellbook(tab.getAttribute('data-tab'));
+      });
     });
 
     // ==========================================
-    // 14. MAIN GAME LOOP & PHYSICS
+    // 12. MAIN GAME LOOP & PHYSICS
     // ==========================================
     const clock = new THREE.Clock();
 
@@ -1730,11 +1761,9 @@
       const time = clock.getElapsedTime();
 
       updateCooldownHUD(delta);
-
-      // Mana & Stamina Regeneration
       STATE.player.mana = Math.min(STATE.player.maxMana, STATE.player.mana + 15 * delta);
 
-      // 1. Movement & Sprint Calculations
+      // Movement & Sprint
       const isSprinting = (keys['ShiftLeft'] || keys['ShiftRight']) && (STATE.player.stamina > 0);
       let moveSpeed = isSprinting ? STATE.player.sprintSpeed : STATE.player.walkSpeed;
       if (STATE.player.isADS) moveSpeed = STATE.player.adsSpeed;
@@ -1746,7 +1775,6 @@
       }
       updatePlayerHUD();
 
-      // Camera forward & right vectors on XZ plane
       const camForward = new THREE.Vector3(-Math.sin(STATE.player.yaw), 0, -Math.cos(STATE.player.yaw)).normalize();
       const camRight = new THREE.Vector3(Math.cos(STATE.player.yaw), 0, -Math.sin(STATE.player.yaw)).normalize();
 
@@ -1761,12 +1789,8 @@
       if (isMoving) {
         moveDir.normalize();
         playerRoot.position.addScaledVector(moveDir, moveSpeed * delta);
+        playerRoot.rotation.y = Math.atan2(moveDir.x, moveDir.z);
 
-        // Smoothly orient character towards movement or aim
-        const targetRot = Math.atan2(moveDir.x, moveDir.z);
-        playerRoot.rotation.y = targetRot;
-
-        // Locomotion Leg Cycle & Arm Swing Animations
         const swingSpeed = isSprinting ? 16 : 10;
         const swing = Math.sin(time * swingSpeed) * 0.65;
         mechLeftLeg.rotation.x = -swing;
@@ -1780,23 +1804,22 @@
         mechRightArm.rotation.x = 0;
       }
 
-      // Upper-body casting animation pose
       if (STATE.player.castingAnimTimer > 0) {
         STATE.player.castingAnimTimer -= delta;
-        mechRightArm.rotation.x = -1.6; // Raise arm forward to point crosshair
+        mechRightArm.rotation.x = -1.6;
       }
 
       // Jump & Gravity
       if (keys['Space'] && STATE.player.isGrounded) {
         STATE.player.verticalVel = STATE.player.jumpForce;
         STATE.player.isGrounded = false;
-        audio.playThunder(); // Jump burst sound
+        audio.playThunder();
       }
 
       STATE.player.verticalVel -= STATE.player.gravity * delta;
       playerRoot.position.y += STATE.player.verticalVel * delta;
 
-      // Platform & Ground Collisions
+      // Map Obstacle Collisions
       let currentGround = 0;
       const pPos = playerRoot.position;
 
@@ -1815,35 +1838,28 @@
         STATE.player.isGrounded = true;
       }
 
-      // Arena boundary clamp
-      const distFromCenter = Math.hypot(playerRoot.position.x, playerRoot.position.z);
-      const maxDist = arenaRadius - 3.8;
-      if (distFromCenter > maxDist) {
-        const ang = Math.atan2(playerRoot.position.z, playerRoot.position.x);
-        playerRoot.position.x = Math.cos(ang) * maxDist;
-        playerRoot.position.z = Math.sin(ang) * maxDist;
-      }
-
-      // 2. Camera Follow & ADS Interpolation
+      // Camera Follow & ADS Interpolation
       const targetFov = STATE.player.isADS ? STATE.settings.adsFov : STATE.settings.fov;
       camera.fov += (targetFov - camera.fov) * 0.15;
       camera.updateProjectionMatrix();
 
-      const camDistance = STATE.player.isADS ? 4.2 : 7.8;
+      // Adjust camera distance based on character size (Golem is larger)
+      let baseCamDist = (STATE.player.currentChar === 'golem') ? 8.8 : 7.6;
+      let charEyeHeight = (STATE.player.currentChar === 'golem') ? 2.5 : 2.1;
+
+      const camDistance = STATE.player.isADS ? (baseCamDist * 0.55) : baseCamDist;
       const shoulderOffset = STATE.player.isADS ? 0.9 : 0.0;
 
-      const targetLookAt = playerRoot.position.clone().add(new THREE.Vector3(0, 2.1, 0));
+      const targetLookAt = playerRoot.position.clone().add(new THREE.Vector3(0, charEyeHeight, 0));
       const camOffset = new THREE.Vector3(
         Math.sin(STATE.player.yaw) * Math.cos(STATE.player.pitch) * camDistance,
-        Math.sin(STATE.player.pitch) * camDistance + 1.8,
+        Math.sin(STATE.player.pitch) * camDistance + (charEyeHeight * 0.8),
         Math.cos(STATE.player.yaw) * Math.cos(STATE.player.pitch) * camDistance
       );
 
-      // Add shoulder offset in ADS
       const rightVec = new THREE.Vector3(Math.cos(STATE.player.yaw), 0, -Math.sin(STATE.player.yaw)).normalize();
       camOffset.addScaledVector(rightVec, shoulderOffset);
 
-      // Screen shake decay
       if (screenShake > 0) {
         camOffset.x += (Math.random() - 0.5) * screenShake;
         camOffset.y += (Math.random() - 0.5) * screenShake;
@@ -1853,20 +1869,19 @@
       camera.position.copy(targetLookAt).add(camOffset);
       camera.lookAt(targetLookAt);
 
-      // 3. Projectiles Update & Collision
+      // Projectiles Update & Collision
       for (let i = projectiles.length - 1; i >= 0; i--) {
         const p = projectiles[i];
         p.group.position.addScaledVector(p.dir, p.speed * delta);
         p.lifetime -= delta;
 
-        // Dynamic light follow
         if (p.type === 'fireball') {
           spellDynamicLight.position.copy(p.group.position);
           spellDynamicLight.color.setHex(0xff7700);
           spellDynamicLight.intensity = 3.5;
         }
 
-        // Hit detection against Target Automaton
+        // Hit detection with Combat Automaton
         const distToDummy = p.group.position.distanceTo(STATE.targetDummy.pos.clone().add(new THREE.Vector3(0, 2.0, 0)));
         if (!STATE.targetDummy.isDead && distToDummy < (p.radius + 1.4)) {
           p.onHit(p.group.position);
@@ -1876,22 +1891,28 @@
           continue;
         }
 
-        // Floor / Wall Collision
-        if (p.group.position.y <= 0 || p.group.position.length() > arenaRadius || p.lifetime <= 0) {
+        // Hit detection with map obstacles
+        let hitObstacle = false;
+        for (let bIdx = 0; bIdx < platformBoxes.length; bIdx++) {
+          if (platformBoxes[bIdx].box.containsPoint(p.group.position)) {
+            hitObstacle = true;
+            break;
+          }
+        }
+
+        if (hitObstacle || p.group.position.y <= 0 || p.lifetime <= 0) {
           p.onHit(p.group.position);
           scene.remove(p.group);
           projectiles.splice(i, 1);
         }
       }
 
-      // Decay spell dynamic light
       spellDynamicLight.intensity = Math.max(0, spellDynamicLight.intensity - 14 * delta);
 
-      // 4. Particles Update
+      // Particles Update
       for (let i = particles.length - 1; i >= 0; i--) {
         const pt = particles[i];
         pt.life -= delta;
-
         if (pt.isRing) {
           pt.mesh.scale.addScalar(pt.scaleSpeed * delta);
           pt.mesh.material.opacity = (pt.life / pt.maxLife);
@@ -1901,22 +1922,17 @@
           const sc = pt.life / pt.maxLife;
           pt.mesh.scale.set(sc, sc, sc);
         }
-
         if (pt.life <= 0) {
           scene.remove(pt.mesh);
           particles.splice(i, 1);
         }
       }
 
-      // 5. Monolith & Arena Ambience
-      monolithCrystal.rotation.y += 0.8 * delta;
-      monolithCrystal.rotation.x += 0.4 * delta;
-      monolithCrystal.position.y = 6.8 + Math.sin(time * 2.2) * 0.35;
-
       renderer.render(scene, camera);
     }
 
-    // Init UI
+    // Initialize initial map and UI
+    loadMapEnvironment('colosseum');
     updateHotbarUI();
     updatePlayerHUD();
     updateTargetHUD();
