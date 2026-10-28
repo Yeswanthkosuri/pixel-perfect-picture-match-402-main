@@ -95,6 +95,46 @@
       "value": "pulse-repeater"
     },
     {
+      "name": "PlayerMana",
+      "type": "number",
+      "value": 100
+    },
+    {
+      "name": "PlayerMaxMana",
+      "type": "number",
+      "value": 100
+    },
+    {
+      "name": "SelectedCharacter",
+      "type": "string",
+      "value": "golem"
+    },
+    {
+      "name": "Slot0Spell",
+      "type": "string",
+      "value": "fireball"
+    },
+    {
+      "name": "Slot1Spell",
+      "type": "string",
+      "value": "flame-burst"
+    },
+    {
+      "name": "Slot2Spell",
+      "type": "string",
+      "value": "thunder-surge"
+    },
+    {
+      "name": "Slot3Spell",
+      "type": "string",
+      "value": "ice-shard"
+    },
+    {
+      "name": "Slot4Spell",
+      "type": "string",
+      "value": "arcane-bolt"
+    },
+    {
       "name": "SessionMode",
       "type": "string",
       "value": "practice"
@@ -102,7 +142,7 @@
     {
       "name": "TargetDummyHealth",
       "type": "number",
-      "value": 200
+      "value": 250
     }
   ],
   "objects": [],
