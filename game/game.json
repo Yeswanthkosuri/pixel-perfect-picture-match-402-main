@@ -1,0 +1,438 @@
+{
+  "firstLayout": "ArenaScene",
+  "gdVersion": {
+    "build": 99,
+    "major": 5,
+    "minor": 0,
+    "revision": 0
+  },
+  "properties": {
+    "adaptGameAspectRatio": true,
+    "author": "Elemental Arena Team",
+    "folderProject": false,
+    "name": "Elemental Arena 3D",
+    "packageName": "com.elementalarena.game",
+    "projectUuid": "4e75a6c1-282e-48a5-8ff0-77a83d3b7621",
+    "version": "0.1.0",
+    "windowWidth": 1280,
+    "windowHeight": 720,
+    "orientation": "landscape",
+    "antialiasingMode": "MSAA",
+    "scaleMode": "linear",
+    "pixelsRounding": false
+  },
+  "resources": {
+    "resources": [
+      {
+        "alwaysLoaded": false,
+        "file": "assets/models/character_hero.glb",
+        "kind": "model3D",
+        "name": "CharacterHeroModel",
+        "userAdded": true
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "assets/models/arena_colosseum.glb",
+        "kind": "model3D",
+        "name": "ArenaColosseumModel",
+        "userAdded": true
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "assets/textures/grid_floor.png",
+        "kind": "image",
+        "name": "GridFloorTexture",
+        "userAdded": true
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "assets/textures/crosshair.png",
+        "kind": "image",
+        "name": "CrosshairTexture",
+        "userAdded": true
+      }
+    ]
+  },
+  "variables": [
+    {
+      "name": "PlayerHealth",
+      "type": "number",
+      "value": 100
+    },
+    {
+      "name": "PlayerMaxHealth",
+      "type": "number",
+      "value": 100
+    },
+    {
+      "name": "PlayerStamina",
+      "type": "number",
+      "value": 100
+    },
+    {
+      "name": "PlayerPrimaryElement",
+      "type": "string",
+      "value": "fire"
+    },
+    {
+      "name": "PlayerSecondaryElement",
+      "type": "string",
+      "value": "lightning"
+    },
+    {
+      "name": "FireAbilityCooldown",
+      "type": "number",
+      "value": 0
+    },
+    {
+      "name": "LightningAbilityCooldown",
+      "type": "number",
+      "value": 0
+    },
+    {
+      "name": "EquippedWeapon",
+      "type": "string",
+      "value": "pulse-repeater"
+    },
+    {
+      "name": "SessionMode",
+      "type": "string",
+      "value": "practice"
+    },
+    {
+      "name": "TargetDummyHealth",
+      "type": "number",
+      "value": 200
+    }
+  ],
+  "objects": [],
+  "objectsFolders": [],
+  "eventsFunctionsExtensions": [],
+  "externalEvents": [],
+  "externalLayouts": [],
+  "externalSourceFiles": [],
+  "layouts": [
+    {
+      "b": 18,
+      "r": 12,
+      "g": 14,
+      "title": "Elemental Arena - 3D Colosseum",
+      "name": "ArenaScene",
+      "standardSortMethod": true,
+      "stopGDJSOnFocusLost": false,
+      "vars": [],
+      "uiSettings": {
+        "grid": false,
+        "gridType": "isometric",
+        "gridWidth": 32,
+        "gridHeight": 32,
+        "gridOffsetX": 0,
+        "gridOffsetY": 0,
+        "gridColor": 10401023,
+        "gridAlpha": 0.8,
+        "snap": false
+      },
+      "objectsGroups": [],
+      "layers": [
+        {
+          "name": "",
+          "visibility": true,
+          "isLightingLayer": false,
+          "is3D": true,
+          "cameras": [
+            {
+              "defaultSize": true,
+              "defaultViewport": true,
+              "height": 720,
+              "viewportBottom": 1,
+              "viewportLeft": 0,
+              "viewportRight": 1,
+              "viewportTop": 0,
+              "width": 1280
+            }
+          ],
+          "effects": []
+        },
+        {
+          "name": "HUD",
+          "visibility": true,
+          "isLightingLayer": false,
+          "is3D": false,
+          "cameras": [
+            {
+              "defaultSize": true,
+              "defaultViewport": true,
+              "height": 720,
+              "viewportBottom": 1,
+              "viewportLeft": 0,
+              "viewportRight": 1,
+              "viewportTop": 0,
+              "width": 1280
+            }
+          ],
+          "effects": []
+        }
+      ],
+      "behaviorsSharedData": [],
+      "objects": [
+        {
+          "name": "PlayerCharacter",
+          "type": "Scene3D::Model3DObject",
+          "variables": [
+            {
+              "name": "MoveSpeed",
+              "type": "number",
+              "value": 14
+            },
+            {
+              "name": "SprintSpeed",
+              "type": "number",
+              "value": 24
+            },
+            {
+              "name": "JumpForce",
+              "type": "number",
+              "value": 18
+            },
+            {
+              "name": "IsGrounded",
+              "type": "boolean",
+              "value": true
+            }
+          ],
+          "behaviors": [],
+          "content": {
+            "modelResourceName": "CharacterHeroModel",
+            "materialType": "Standard",
+            "castShadow": true,
+            "receiveShadow": true,
+            "animationSpeed": 1,
+            "currentAnimation": "Idle"
+          }
+        },
+        {
+          "name": "TargetDummy",
+          "type": "Scene3D::Model3DObject",
+          "variables": [
+            {
+              "name": "Health",
+              "type": "number",
+              "value": 200
+            },
+            {
+              "name": "MaxHealth",
+              "type": "number",
+              "value": 200
+            }
+          ],
+          "behaviors": [],
+          "content": {
+            "modelResourceName": "CharacterHeroModel",
+            "materialType": "Standard",
+            "castShadow": true,
+            "receiveShadow": true,
+            "animationSpeed": 1,
+            "currentAnimation": "Idle"
+          }
+        },
+        {
+          "name": "ArenaFloor",
+          "type": "Scene3D::Cube3DObject",
+          "variables": [],
+          "behaviors": [],
+          "content": {
+            "width": 120,
+            "height": 2,
+            "depth": 120,
+            "facesColors": {
+              "front": 1381653,
+              "back": 1381653,
+              "top": 1710618,
+              "bottom": 1381653,
+              "left": 1381653,
+              "right": 1381653
+            }
+          }
+        },
+        {
+          "name": "FireballProjectile",
+          "type": "Scene3D::Cube3DObject",
+          "variables": [
+            {
+              "name": "Damage",
+              "type": "number",
+              "value": 45
+            },
+            {
+              "name": "Velocity",
+              "type": "number",
+              "value": 50
+            },
+            {
+              "name": "Lifetime",
+              "type": "number",
+              "value": 3
+            }
+          ],
+          "behaviors": [],
+          "content": {
+            "width": 1.2,
+            "height": 1.2,
+            "depth": 1.2,
+            "facesColors": {
+              "front": 16737792,
+              "back": 16737792,
+              "top": 16753920,
+              "bottom": 16737792,
+              "left": 16737792,
+              "right": 16737792
+            }
+          }
+        },
+        {
+          "name": "LightningBoltProjectile",
+          "type": "Scene3D::Cube3DObject",
+          "variables": [
+            {
+              "name": "Damage",
+              "type": "number",
+              "value": 65
+            },
+            {
+              "name": "Velocity",
+              "type": "number",
+              "value": 110
+            },
+            {
+              "name": "Lifetime",
+              "type": "number",
+              "value": 1.5
+            }
+          ],
+          "behaviors": [],
+          "content": {
+            "width": 0.6,
+            "height": 0.6,
+            "depth": 3,
+            "facesColors": {
+              "front": 43775,
+              "back": 43775,
+              "top": 7077887,
+              "bottom": 43775,
+              "left": 43775,
+              "right": 43775
+            }
+          }
+        },
+        {
+          "name": "HUD_Crosshair",
+          "type": "Sprite",
+          "variables": [],
+          "behaviors": [],
+          "animations": [
+            {
+              "name": "Default",
+              "directions": [
+                {
+                  "sprites": [
+                    {
+                      "image": "CrosshairTexture",
+                      "originPoint": { "name": "origine", "x": 16, "y": 16 },
+                      "centerPoint": { "name": "centre", "x": 16, "y": 16, "automatic": true },
+                      "points": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "instances": [
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "layer": "",
+          "name": "ArenaFloor",
+          "width": 0,
+          "x": 0,
+          "y": -1,
+          "zOrder": 1,
+          "numberProperties": [
+            { "name": "z", "value": 0 }
+          ],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "layer": "",
+          "name": "PlayerCharacter",
+          "width": 0,
+          "x": 0,
+          "y": 1,
+          "zOrder": 2,
+          "numberProperties": [
+            { "name": "z", "value": 0 }
+          ],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 0,
+          "layer": "",
+          "name": "TargetDummy",
+          "width": 0,
+          "x": 0,
+          "y": 1,
+          "zOrder": 3,
+          "numberProperties": [
+            { "name": "z", "value": 25 }
+          ],
+          "stringProperties": [],
+          "initialVariables": []
+        },
+        {
+          "angle": 0,
+          "customSize": false,
+          "height": 32,
+          "layer": "HUD",
+          "name": "HUD_Crosshair",
+          "width": 32,
+          "x": 624,
+          "y": 344,
+          "zOrder": 10,
+          "numberProperties": [],
+          "stringProperties": [],
+          "initialVariables": []
+        }
+      ],
+      "events": [
+        {
+          "type": "BuiltinCommonInstructions::Standard",
+          "conditions": [
+            {
+              "type": { "value": "DepartScene" },
+              "parameters": [ "" ]
+            }
+          ],
+          "actions": [
+            {
+              "type": { "value": "Scene3D::SetCameraDistance" },
+              "parameters": [ "", "8", "" ]
+            },
+            {
+              "type": { "value": "Scene3D::SetCameraElevation" },
+              "parameters": [ "", "25", "" ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
