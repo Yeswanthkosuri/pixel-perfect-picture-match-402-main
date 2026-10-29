@@ -1635,35 +1635,8 @@ try {
     const setSfxVol    = v => { if (sfxGain) sfxGain.gain.setValueAtTime(v, ctx.currentTime); };
     const setAmbVol    = v => { if (ambGain) ambGain.gain.setValueAtTime(v, ctx.currentTime); };
 
-    // Procedural Ambient Outdoor Wind Loop
-    const startAmbience = () => {
-      if (!ctx || ambientSource) return;
-      try {
-        const sr = ctx.sampleRate;
-        const dur = 4.0;
-        const buf = ctx.createBuffer(1, Math.floor(sr * dur), sr);
-        const d = buf.getChannelData(0);
-        let b0 = 0, b1 = 0, b2 = 0;
-        for (let i = 0; i < d.length; i++) {
-          const white = Math.random() * 2 - 1;
-          b0 = 0.997 * b0 + white * 0.05;
-          b1 = 0.985 * b1 + white * 0.08;
-          b2 = 0.950 * b2 + white * 0.12;
-          d[i] = (b0 + b1 + b2) * 0.25;
-        }
-        ambientSource = ctx.createBufferSource();
-        ambientSource.buffer = buf;
-        ambientSource.loop = true;
-
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(320, ctx.currentTime);
-
-        ambientSource.connect(filter);
-        filter.connect(ambGain);
-        ambientSource.start();
-      } catch (e) { console.warn('Ambience init error:', e); }
-    };
+    // Ambient wind noise REMOVED — was producing continuous unpleasant hissing
+    const startAmbience = () => { /* disabled */ };
 
     const osc = (type, f0, f1, dur, vol = 0.25) => {
       if (!ctx) return;
@@ -1953,7 +1926,7 @@ try {
     renderer = new THREE.WebGLRenderer({ antialias: false });
   }
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -1975,8 +1948,8 @@ try {
   const sunLight = new THREE.DirectionalLight(0xffffff, 1.3);
   sunLight.position.set(60, 100, 50);
   sunLight.castShadow = true;
-  sunLight.shadow.mapSize.width = 2048;
-  sunLight.shadow.mapSize.height = 2048;
+  sunLight.shadow.mapSize.width = 1024;
+  sunLight.shadow.mapSize.height = 1024;
   sunLight.shadow.camera.near = 0.5;
   sunLight.shadow.camera.far = 400;
   const d = 120;
@@ -2079,7 +2052,7 @@ try {
     gltfLoader.load('/assets/maps/school/CollegeRaimon.glb', (gltf) => {
       schoolGltfLoaded = gltf.scene;
       // Scale 0.1 gives authentic ~160m explorable campus footprint
-      gltf.scene.scale.setScalar(0.1);
+      gltf.scene.scale.setScalar(0.5);
       gltf.scene.position.set(0, 0, 0);
 
       gltf.scene.traverse(node => {
@@ -2103,13 +2076,13 @@ try {
     });
 
     // Immediate Campus Bounding & Architecture Colliders
-    addColliderBox(new THREE.Box3(new THREE.Vector3(-45, 0, 20), new THREE.Vector3(45, 18, 55)), false); // Main Academy Wing
-    addColliderBox(new THREE.Box3(new THREE.Vector3(-65, 0, -30), new THREE.Vector3(-40, 14, 25)), false); // West Classroom Wing
-    addColliderBox(new THREE.Box3(new THREE.Vector3(35, 0, 15), new THREE.Vector3(70, 16, 60)), false); // East Athletic Pavilion
-    addColliderBox(new THREE.Box3(new THREE.Vector3(-100, 0, -90), new THREE.Vector3(100, 4, -85)), false); // North Fence
-    addColliderBox(new THREE.Box3(new THREE.Vector3(-100, 0, 85), new THREE.Vector3(100, 4, 90)), false); // South Fence
-    addColliderBox(new THREE.Box3(new THREE.Vector3(-95, 0, -90), new THREE.Vector3(-90, 4, 90)), false); // West Fence
-    addColliderBox(new THREE.Box3(new THREE.Vector3(90, 0, -90), new THREE.Vector3(95, 4, 90)), false); // East Fence
+    addColliderBox(new THREE.Box3(new THREE.Vector3(-225, 0, 100), new THREE.Vector3(225, 90, 275)), false); // Main Academy Wing
+    addColliderBox(new THREE.Box3(new THREE.Vector3(-325, 0, -150), new THREE.Vector3(-200, 70, 125)), false); // West Classroom Wing
+    addColliderBox(new THREE.Box3(new THREE.Vector3(175, 0, 75), new THREE.Vector3(350, 80, 300)), false); // East Athletic Pavilion
+    addColliderBox(new THREE.Box3(new THREE.Vector3(-500, 0, -450), new THREE.Vector3(500, 20, -425)), false); // North Fence
+    addColliderBox(new THREE.Box3(new THREE.Vector3(-500, 0, 425), new THREE.Vector3(500, 20, 450)), false); // South Fence
+    addColliderBox(new THREE.Box3(new THREE.Vector3(-475, 0, -450), new THREE.Vector3(-450, 20, 450)), false); // West Fence
+    addColliderBox(new THREE.Box3(new THREE.Vector3(450, 0, -450), new THREE.Vector3(475, 20, 450)), false); // East Fence
 
     // Player ground-level spawn in Central Courtyard
     STATE.player.pos.set(0, 0.4, 0);
@@ -2871,12 +2844,22 @@ try {
       entity.rewardValue = 40;
       entity.name = 'Jungle Monkey';
 
-      const setupMonkeyMesh = (baseFbx) => {
-        const monkeyClone = baseFbx.clone();
-        monkeyClone.scale.setScalar(0.016); // ~1.15m height
-        entity.mesh.add(monkeyClone);
+      // Each monkey gets its own fresh FBX load to avoid SkinnedMesh clone distortion
+      const setupMonkeyFresh = (freshFbx) => {
+        freshFbx.scale.setScalar(0.009); // 0.65m realistic monkey height
+        freshFbx.traverse(c => {
+          if (c.isMesh || c.isSkinnedMesh) {
+            c.castShadow = true; c.receiveShadow = true;
+            if (c.isSkinnedMesh) c.material.skinning = true;
+            c.material = new THREE.MeshStandardMaterial({
+              map: monkeyDiffuse, normalMap: monkeyNormal, roughnessMap: monkeyRough,
+              roughness: 0.65, metalness: 0.1, skinning: true
+            });
+          }
+        });
+        entity.mesh.add(freshFbx);
 
-        entity.mixer = new THREE.AnimationMixer(monkeyClone);
+        entity.mixer = new THREE.AnimationMixer(freshFbx);
         ['idle', 'run', 'roar', 'die'].forEach(k => {
           if (monkeyAnimClips[k]) {
             const act = entity.mixer.clipAction(monkeyAnimClips[k]);
@@ -2889,11 +2872,7 @@ try {
         }
       };
 
-      if (monkeyTemplateFbx) {
-        setupMonkeyMesh(monkeyTemplateFbx);
-      } else {
-        fbxLdr0.load('/assets/models/monkey/Monkey_B1.Fbx', setupMonkeyMesh);
-      }
+      fbxLdr0.load('/assets/models/monkey/Monkey_B1.Fbx', setupMonkeyFresh);
     } else if (type === 'deer') {
       entity.rewardType = 'hp';
       entity.rewardValue = 45;
@@ -3029,15 +3008,15 @@ try {
 
   // Populate Environments with Configured Wildlife
   function spawnSchoolWildlife() {
-    spawnAnimal('monkey', -16, 12, { alertRadius: 10 });
-    spawnAnimal('monkey', 18, -14, { alertRadius: 10 });
-    spawnAnimal('deer', 42, 25, { alertRadius: 15 });
-    spawnAnimal('deer', 48, -20, { alertRadius: 15 });
-    spawnAnimal('dog', -25, 5, { alertRadius: 12 });
-    spawnAnimal('chicken', -8, -10, { alertRadius: 7 });
-    spawnAnimal('kitty', 12, 16, { alertRadius: 8 });
-    spawnAnimal('tiger', -45, -60, { alertRadius: 16 });
-    spawnAnimal('boss_monster', 0, 75, { hp: 400, speed: 4.2 });
+    spawnAnimal('monkey', -80, 60, { alertRadius: 18 });
+    spawnAnimal('monkey', 90, -70, { alertRadius: 18 });
+    spawnAnimal('deer', 210, 125, { alertRadius: 25 });
+    spawnAnimal('deer', 240, -100, { alertRadius: 25 });
+    spawnAnimal('dog', -125, 25, { alertRadius: 20 });
+    spawnAnimal('chicken', -40, -50, { alertRadius: 12 });
+    spawnAnimal('kitty', 60, 80, { alertRadius: 14 });
+    spawnAnimal('tiger', -225, -300, { alertRadius: 28 });
+    spawnAnimal('boss_monster', 0, 375, { hp: 400, speed: 4.2 });
   }
 
   function spawnVillageWildlife() {

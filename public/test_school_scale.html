@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>body { margin: 0; overflow: hidden; background: #87ceeb; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
+</head>
+<body>
+<script>
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x87ceeb);
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const amb = new THREE.AmbientLight(0xffffff, 0.8);
+scene.add(amb);
+const sun = new THREE.DirectionalLight(0xfff5e6, 1.2);
+sun.position.set(100, 200, 100);
+scene.add(sun);
+
+// Add a 1.82m human reference figure (Shadow Rogue)
+const fbxLdr = new THREE.FBXLoader();
+fbxLdr.load('/assets/models/rogue/rogue_all.fbx', (rogue) => {
+  rogue.scale.setScalar(0.010);
+  rogue.position.set(0, 0, 0); // on the road/curb
+  scene.add(rogue);
+  console.log('[OK] Rogue loaded at (0, 0, 0)');
+});
+
+// Load College Raimon with scale 1.0 and offset
+const gltfLdr = new THREE.GLTFLoader();
+gltfLdr.load('/assets/maps/school/CollegeRaimon.glb', (gltf) => {
+  gltf.scene.scale.setScalar(1.0);
+  gltf.scene.position.set(0, 100, 0); // lifts by 100 so road is at Y=0
+  scene.add(gltf.scene);
+  console.log('[OK] College Raimon loaded at scale 1.0 with offset Y=100');
+  
+  // Position camera to look at the Rogue standing on the street in front of the school
+  camera.position.set(0, 2.5, 6);
+  camera.lookAt(0, 1.2, 0);
+  window.ready = true;
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+</body>
+</html>
+
